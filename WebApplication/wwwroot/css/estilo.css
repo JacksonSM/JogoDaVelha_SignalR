@@ -1,0 +1,76 @@
+:root {
+    --cinza: #aaa;
+    --vermelha: #e93d50;
+    --vermelha-escura: #af303f;
+    --branca: #fff;
+    --luz: rgb(229, 255, 0);
+}
+
+body {
+    align-items: center;
+    background: linear-gradient(45deg, #a7cfdf 0%,#23538a 100%);
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    font-family: 'Montserrat', sans-serif;
+    min-height: 100vh;
+}
+
+h1 {
+    color: var(--branca);
+    margin-bottom: 20px;
+    font-size: 2rem;
+}
+
+.tabuleiro {
+    background: linear-gradient(to bottom, #0e0606 0%,#120909 100%);
+    display: grid;
+    gap: 10px;
+    grid-template-columns: repeat(3, 1fr);
+    padding: 10px;
+}
+
+.posicao {
+    background-color: var(--branca);
+    color: var(--vermelha);
+    cursor: pointer;
+    height: 120px;
+    font-size: 60px;
+    font-weight: bold;
+    line-height: 120px;
+    text-align: center;
+    width: 120px;
+}
+
+.posicao.ativa,
+.posicao:active {
+    background-color: var(--vermelha);
+    border: 4px solid var(--vermelha);
+    box-shadow: 3px 3px 0 var(--vermelha-escura) inset;
+    color: var(--branca);
+    outline: none;
+}
+
+.posicao.focus,
+.posicao:focus {
+    outline: none;
+    box-shadow: 1px 1px 10px var(--luz);
+}
+
+.posicao.active:focus,
+.posicao:active:focus {
+    box-shadow: 3px 3px 0 var(--vermelha-escura) inset, 1px 1px 10px var(--luz);
+}
+
+.painel {
+    color: #080505;
+    position: absolute;
+    transform: translateX(-440px);
+    padding: 30px;
+    border: 10px solid #4CAF50;
+    border-radius: 10px;
+}
+
+#btnCriarPartida {
+    margin-top: 20px;
+}

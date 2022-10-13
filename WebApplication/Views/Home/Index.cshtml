@@ -1,8 +1,45 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
-}
+﻿<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
+    <title>Jogo da Velha</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="css/reset.css">
+    <link rel="stylesheet" href="css/estilo.css">
+</head>
+<body>
+
+
+    <section class="tabuleiro">
+        <button class="posicao" data-posicao="0">X</button>
+        <button class="posicao" data-posicao="1">O</button>
+        <button class="posicao" data-posicao="2">O</button>
+
+        <button class="posicao" data-posicao="3">X</button>
+        <button class="posicao" data-posicao="4">O</button>
+        <button class="posicao" data-posicao="5">X</button>
+
+        <button class="posicao" data-posicao="6">O</button>
+        <button class="posicao" data-posicao="7"></button>
+        <button class="posicao" data-posicao="8"></button>
+    </section>
+
+    <div class="painel">
+        <form action="" id="formCriarPartida">
+            <label for="fname">Seu Nome:</label><br>
+            <input type="text" name="fnome"><br>
+            <button type="submit" id="btnCriarPartida">Criar Partida</button>
+          </form> 
+    </div>
+
+    <script type="text/javascript" src="lib/signalr/signalr.js"></script>
+    <script type="text/javascript" src="js/site.js"></script>
+</body>
+</html>
