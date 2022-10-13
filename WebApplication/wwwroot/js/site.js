@@ -18,9 +18,6 @@ connection.onclose(async () => {
     await start();
 });
 
-// Start the connection.
-start();
-
 
 formCriarPartida.addEventListener("submit", function (evento) {
     evento.preventDefault();
@@ -31,6 +28,14 @@ formCriarPartida.addEventListener("submit", function (evento) {
 });
 
 connection.on("ReceberCodigoDaPartida", (codigo) => {
+
+    document.getElementById('formCriarPartida').style.display = 'none';
+    const formEntrarPartida = document.getElementById('formEntrarPartida');
+    formEntrarPartida.style.display = 'block';
+
+    document.getElementById('codPartida').textContent = codigo;
+
     console.log(codigo);
 });
 
+start();

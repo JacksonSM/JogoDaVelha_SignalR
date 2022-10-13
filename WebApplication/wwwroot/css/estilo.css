@@ -71,6 +71,11 @@ h1 {
     border-radius: 10px;
 }
 
-#btnCriarPartida {
+#formCriarPartida button {
     margin-top: 20px;
+}
+
+
+#formEntrarPartida {
+    display: none;
 }
