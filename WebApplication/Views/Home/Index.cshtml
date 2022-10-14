@@ -11,7 +11,8 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600&display=swap" rel="stylesheet">
 
-    <link rel="stylesheet" href="css/reset.css">
+
+    <link rel="stylesheet" href="~/css/reset.css">
     <link rel="stylesheet" href="css/estilo.css">
 </head>
 <body>
@@ -35,14 +36,17 @@
         <form id="formCriarPartida">
             <label for="fname">Seu Nome:</label><br>
             <input type="text" name="fnome"><br>
-            <button type="submit">Criar Partida</button>
+            <button class="btnPainel" type="submit">Criar Partida</button>
           </form> 
 
           <form id="formEntrarPartida">
             <p>Codigo da sua partida: <span id="codPartida"></span></p>
-            <input type="text" name="fnome" placeholder="Codigo do seu amigo"><br>
-            <button type="submit">Entrar na Partida</button>
-          </form> 
+            <input type="text" name="fcodPardida" placeholder="Codigo do seu amigo"><br>
+            <button class="btnPainel" type="submit">Entrar na Partida</button>
+          </form>
+          <div id="placar">
+              <p> <span id="plJogadorLocal"></span> X <span id="plJogadorFora"></span></></p>
+          </div>
     </div>
 
     <script type="text/javascript" src="lib/signalr/signalr.js"></script>

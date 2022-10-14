@@ -1,6 +1,6 @@
 using Microsoft.EntityFrameworkCore;
-using Web.Dados;
-using Web.Hubs;
+using WebApplication_Jogo.DataBase;
+using WebApplication_Jogo.Hubs;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -35,8 +35,5 @@ app.UseEndpoints(endpoints =>
         name: "default",
         pattern: "{controller=Home}/{action=Index}/{id?}");
 });
-
-app.UseAuthorization();
-
 
 app.Run();

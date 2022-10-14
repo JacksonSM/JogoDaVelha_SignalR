@@ -1,8 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using Web.Model;
+using WebApplication_Jogo.Entity;
 
-namespace Web.Dados;
+namespace WebApplication_Jogo.DataBase;
 
 public class ApplicationDbContext : DbContext
 {
@@ -14,7 +14,6 @@ public class ApplicationDbContext : DbContext
     {
         MapearPartida(builder.Entity<Partida>());
     }
-
     private void MapearPartida(EntityTypeBuilder<Partida> builder)
     {
         builder.HasKey(x => x.Id);

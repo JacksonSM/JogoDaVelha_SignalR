@@ -1,4 +1,4 @@
-﻿namespace Web.Model;
+﻿namespace WebApplication_Jogo.Entity;
 
 public class Jogador
 {

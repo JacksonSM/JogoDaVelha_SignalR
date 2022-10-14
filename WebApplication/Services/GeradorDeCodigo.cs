@@ -1,4 +1,4 @@
-﻿namespace Web.Services;
+﻿namespace WebApplication_Jogo.Services;
 
 public static class GeradorDeCodigo
 {
