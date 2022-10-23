@@ -14,11 +14,14 @@ public class Partida
 
     public string CodigoPartida { get; private set; }
 
+    public string JogadorDaVezConnectionId { get; private set; }
+
     public Partida() { }
 
     public Partida(Jogador jogadorLocal)
     {
         JogadorLocal = jogadorLocal;
+        JogadorDaVezConnectionId = JogadorLocal.ConnectionId;
         CodigoPartida = GeradorDeCodigo.Gerar();
     }
 
@@ -29,8 +32,28 @@ public class Partida
 
         JogadorFora = jogadorFora;
     }
+
+    public string JogadorDaVez()
+    {
+        string jogadorId = string.Empty;
+
+        if (JogadorFora != null)
+        {
+            jogadorId = JogadorDaVezConnectionId;
+
+            TrocarAVez();
+        }
+
+        return jogadorId;
+    }
+
     public string Serializar()
     {
         return JsonConvert.SerializeObject(this);
+    }
+    private void TrocarAVez()
+    {
+        JogadorDaVezConnectionId = JogadorDaVezConnectionId.Equals(JogadorLocal.ConnectionId) ?
+                JogadorFora.ConnectionId : JogadorLocal.ConnectionId;
     }
 }

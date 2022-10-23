@@ -1,10 +1,17 @@
-﻿const formCriarPartida = document.getElementById("formCriarPartida");
+﻿const posicoes = document.getElementsByClassName("posicao");
+let tabuleiro = ["", "", "", "", "", "", "", "", ""];
+
+
+const formCriarPartida = document.getElementById("formCriarPartida");
 const formEntrarPartida = document.getElementById("formEntrarPartida");
 
 const plJogadorLocal = document.getElementById("plJogadorLocal");
 const plJogadorFora = document.getElementById("plJogadorFora");
 
+let connectionIdJogadorDaVez;
+
 let nomeJogador = "";
+let nomeJogadorOponente = "";
 
 const connection = new signalR.HubConnectionBuilder()
     .withUrl("/jogo-da-velha-hub")
@@ -49,14 +56,11 @@ connection.on("ReceberCodigoDaPartida", (codigo) => {
 
     document.getElementById('codPartida').textContent = codigo;
 
-    console.log(codigo);
 });
 
 connection.on("ComecarPartida", (partidaSerilizado) => {
 
     var partida = JSON.parse(partidaSerilizado);
-    console.log('entrou aqui');
-
     formEntrarPartida.style.display = "none"
 
     var painel = document.getElementById("placar");
@@ -64,6 +68,53 @@ connection.on("ComecarPartida", (partidaSerilizado) => {
 
     plJogadorLocal.textContent = partida.JogadorLocal.Nome;
     plJogadorFora.textContent = partida.JogadorFora.Nome;
+    connectionIdJogadorDaVez = partida.JogadorDaVezConnectionId;
+
+    nomeJogadorOponente = partida.JogadorLocal.Nome == nomeJogador
+        ? nomeJogadorOponente = partida.JogadorFora.Nome : nomeJogadorOponente = partida.JogadorLocal.Nome;
+
+    atualizarNomeJogadorDaVez();
+    resetarTabuleiro();
 });
+
+function resetarTabuleiro() {
+
+    for (let posicao of posicoes) {
+        posicao.innerHTML = "";
+    }
+};
+
+
+for (let posicao of posicoes) {
+    posicao.addEventListener("click", (e) => {
+        marcarPosicao("X", e.target);
+    });
+};
+
+function marcarPosicao(marca, posicao) {
+
+    if (connectionIdJogadorDaVez === connection.connectionId) {
+        posicao.innerHTML = marca;
+    } else {
+        alert("Não é sua vez.");
+    }
+        
+};
+
+function atualizarNomeJogadorDaVez() {
+    const painelNomeJogador = document.getElementById("nomeJogadorDaVez");
+
+    console.log(connectionIdJogadorDaVez + "---------" + connection.connectionId);
+
+    if (connectionIdJogadorDaVez == connection.connectionId) {
+        painelNomeJogador.innerHTML = nomeJogador;
+    } else {
+        painelNomeJogador.innerHTML = nomeJogadorOponente;
+    }
+
+
+} 
+
+
 
 start();

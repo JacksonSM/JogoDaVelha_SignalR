@@ -42,25 +42,6 @@ h1 {
     width: 120px;
 }
 
-.posicao.ativa,
-.posicao:active {
-    background-color: var(--vermelha);
-    border: 4px solid var(--vermelha);
-    box-shadow: 3px 3px 0 var(--vermelha-escura) inset;
-    color: var(--branca);
-    outline: none;
-}
-
-.posicao.focus,
-.posicao:focus {
-    outline: none;
-    box-shadow: 1px 1px 10px var(--luz);
-}
-
-.posicao.active:focus,
-.posicao:active:focus {
-    box-shadow: 3px 3px 0 var(--vermelha-escura) inset, 1px 1px 10px var(--luz);
-}
 
 .painel {
     color: #080505;

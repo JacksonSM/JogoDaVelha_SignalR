@@ -65,7 +65,6 @@ public class PartidaHub : Hub
     {
         var resposta = partida.Serializar();
         var connectiosIds = new string[]{partida.JogadorLocal.ConnectionId,partida.JogadorFora.ConnectionId };
-        //TODO - testar
         await Clients.Clients(connectiosIds).SendAsync("ComecarPartida",resposta);
     }
 }
