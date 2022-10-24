@@ -7,22 +7,20 @@ namespace WebApplication_Jogo.Hubs;
 public class PartidaHub : Hub
 {
 
-    private ApplicationDbContext _dbContext;
+    private readonly PartidaRepository _partidaRepository;
 
-    public PartidaHub(ApplicationDbContext dbContext)
+    public PartidaHub(PartidaRepository partidaRepository)
     {
-        _dbContext = dbContext;
+        _partidaRepository = partidaRepository;
     }
 
     public override async Task OnDisconnectedAsync(Exception exception)
     {
-        var partida = _dbContext.Partidas
-            .FirstOrDefault(a => a.JogadorLocal.ConnectionId.Contains(Context.ConnectionId));
+        var partida = await _partidaRepository.ObterPartidaPorJogadorLocalAsync(Context.ConnectionId);
 
         if (partida != null)
         {
-            _dbContext.Remove(partida);
-            _dbContext.SaveChanges();
+            await _partidaRepository.RemoverAsync(partida);
         }
 
         await base.OnDisconnectedAsync(exception);
@@ -34,19 +32,17 @@ public class PartidaHub : Hub
 
         var novaPartida = new Partida(jogador);
 
-        _dbContext.Partidas.Add(novaPartida);
-        await _dbContext.SaveChangesAsync();
+        await _partidaRepository.CriarAsync(novaPartida);
 
         await Clients.Caller.SendAsync("ReceberCodigoDaPartida", novaPartida.CodigoPartida);
     }
     public async Task EntrarPartida(string nomeJogador, string codPartida)
     {
-        var partida = _dbContext.Partidas
-            .FirstOrDefault(x => x.CodigoPartida.Equals(codPartida));
+        var partida = await _partidaRepository.ObterPorCodigoAsync(codPartida);
 
         //remover a partida do banco de dados do jogador que vai entrar na partida
-        var partidapRemover = _dbContext.Partidas
-            .FirstOrDefault(x => x.JogadorLocal.ConnectionId.Equals(Context.ConnectionId));
+        var partidapRemover = 
+            await _partidaRepository.ObterPartidaPorJogadorLocalAsync(Context.ConnectionId);
 
         if (partida != null)
         {
@@ -54,12 +50,10 @@ public class PartidaHub : Hub
             partida.ConectarJogadorFora(jogadorFora);
         }
 
-        _dbContext.Partidas.Update(partida);
-        _dbContext.Partidas.Remove(partidapRemover);
-        await _dbContext.SaveChangesAsync();
 
+        await _partidaRepository.AtualizarAsync(partida);
+        await _partidaRepository.RemoverAsync(partidapRemover);
         await ComecarPartida(partida);
-
     }
     public async Task ComecarPartida(Partida partida)
     {
@@ -67,4 +61,5 @@ public class PartidaHub : Hub
         var connectiosIds = new string[]{partida.JogadorLocal.ConnectionId,partida.JogadorFora.ConnectionId };
         await Clients.Clients(connectiosIds).SendAsync("ComecarPartida",resposta);
     }
+
 }

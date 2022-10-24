@@ -8,6 +8,8 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
 builder.Services.AddSignalR();
 
+builder.Services.AddScoped<PartidaRepository>();
+
 builder.Services.AddDbContext<ApplicationDbContext>(cfg => {
     cfg.UseSqlite("Data Source=Database\\Partidas.db");
 });
