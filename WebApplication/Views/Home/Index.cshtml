@@ -33,7 +33,8 @@
     </section>
 
     <div class="painel">
-        <form id="formCriarPartida">
+
+          <form id="formCriarPartida">
             <label for="fname">Seu Nome:</label><br>
             <input type="text" name="fnome"><br>
             <button class="btnPainel" type="submit">Criar Partida</button>
@@ -44,10 +45,12 @@
             <input type="text" name="fcodPardida" placeholder="Codigo do seu amigo"><br>
             <button class="btnPainel" type="submit">Entrar na Partida</button>
           </form>
+
           <div id="placar">
-              <p> <span id="plJogadorLocal"></span> X <span id="plJogadorFora"></span></></p>           
+              <p> <span id="plJogadorLocal"></span> X <span id="plJogadorFora"></span></></p>    
+              <p>Vez do Jogador: <span id="nomeJogadorDaVez"></span></p>
           </div>
-          <p>Vez do Jogador: <span id="nomeJogadorDaVez"></span></p>
+
     </div>
 
     <script type="text/javascript" src="lib/signalr/signalr.js"></script>

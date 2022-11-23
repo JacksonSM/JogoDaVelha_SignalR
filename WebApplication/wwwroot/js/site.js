@@ -1,6 +1,4 @@
 ﻿const posicoes = document.getElementsByClassName("posicao");
-let tabuleiro = ["", "", "", "", "", "", "", "", ""];
-
 
 const formCriarPartida = document.getElementById("formCriarPartida");
 const formEntrarPartida = document.getElementById("formEntrarPartida");
@@ -12,6 +10,7 @@ let connectionIdJogadorDaVez;
 
 let nomeJogador = "";
 let nomeJogadorOponente = "";
+let codPartida = "";
 
 const connection = new signalR.HubConnectionBuilder()
     .withUrl("/jogo-da-velha-hub")
@@ -69,6 +68,7 @@ connection.on("ComecarPartida", (partidaSerilizado) => {
     plJogadorLocal.textContent = partida.JogadorLocal.Nome;
     plJogadorFora.textContent = partida.JogadorFora.Nome;
     connectionIdJogadorDaVez = partida.JogadorDaVezConnectionId;
+    codPartida = partida.CodigoPartida;
 
     nomeJogadorOponente = partida.JogadorLocal.Nome == nomeJogador
         ? nomeJogadorOponente = partida.JogadorFora.Nome : nomeJogadorOponente = partida.JogadorLocal.Nome;
@@ -77,6 +77,24 @@ connection.on("ComecarPartida", (partidaSerilizado) => {
     resetarTabuleiro();
 });
 
+connection.on("AtualizarJogo", (partidaSerializada) => {
+
+    var partida = JSON.parse(partidaSerializada);
+
+    connectionIdJogadorDaVez = partida.JogadorDaVezConnectionId;
+    console.log(partida);
+
+    atualizarTabuleiro(partida.Tabuleiro.PosicoesArry);
+    atualizarNomeJogadorDaVez();
+});
+
+function atualizarTabuleiro(posicoesArry) {
+    console.log(posicoesArry);
+    for (var i = 0; i < posicoes.length; i++) {
+        posicoes[i].innerHTML = posicoesArry[i];
+    }
+}
+
 function resetarTabuleiro() {
 
     for (let posicao of posicoes) {
@@ -84,17 +102,10 @@ function resetarTabuleiro() {
     }
 };
 
-
-for (let posicao of posicoes) {
-    posicao.addEventListener("click", (e) => {
-        marcarPosicao("X", e.target);
-    });
-};
-
-function marcarPosicao(marca, posicao) {
+function marcarPosicao(posicao) {
 
     if (connectionIdJogadorDaVez === connection.connectionId) {
-        posicao.innerHTML = marca;
+        connection.invoke("MarcarPosicao", posicao, codPartida);
     } else {
         alert("Não é sua vez.");
     }
@@ -103,8 +114,6 @@ function marcarPosicao(marca, posicao) {
 
 function atualizarNomeJogadorDaVez() {
     const painelNomeJogador = document.getElementById("nomeJogadorDaVez");
-
-    console.log(connectionIdJogadorDaVez + "---------" + connection.connectionId);
 
     if (connectionIdJogadorDaVez == connection.connectionId) {
         painelNomeJogador.innerHTML = nomeJogador;
@@ -116,5 +125,10 @@ function atualizarNomeJogadorDaVez() {
 } 
 
 
+for (let posicao of posicoes) {
+    posicao.addEventListener("click", (e) => {
+        marcarPosicao(e.target.dataset.posicao);
+    });
+};
 
 start();

@@ -14,6 +14,8 @@ public class Partida
 
     public string CodigoPartida { get; private set; }
 
+    public Tabuleiro Tabuleiro { get; private set; } = new();
+
     public string JogadorDaVezConnectionId { get; private set; }
 
     public Partida() { }
@@ -21,6 +23,7 @@ public class Partida
     public Partida(Jogador jogadorLocal)
     {
         JogadorLocal = jogadorLocal;
+        JogadorLocal.Marca = "X";
         JogadorDaVezConnectionId = JogadorLocal.ConnectionId;
         CodigoPartida = GeradorDeCodigo.Gerar();
     }
@@ -28,9 +31,22 @@ public class Partida
     public void ConectarJogadorFora(Jogador jogadorFora)
     {
         if (JogadorFora != null)
-            throw new JogoDaVelhaExceptions("A partida não existe ou está completa.");
-
+            throw new RegrasExceptions("A partida não existe ou está completa.");
+        jogadorFora.Marca = "O";
         JogadorFora = jogadorFora;
+    }
+
+    public void MarcarPosicao(int posicao, string connectionId)
+    {
+        if (!connectionId.Equals(JogadorDaVezConnectionId))
+            throw new RegrasExceptions("Não é a vez do jogador.");
+
+        string marca = connectionId.Equals(JogadorLocal.ConnectionId) 
+            ? JogadorLocal.Marca : JogadorFora.Marca;
+
+        Tabuleiro.MarcarPosicao(marca, posicao);
+
+        TrocarAVez();
     }
 
     public string JogadorDaVez()
@@ -51,9 +67,10 @@ public class Partida
     {
         return JsonConvert.SerializeObject(this);
     }
+
     private void TrocarAVez()
     {
         JogadorDaVezConnectionId = JogadorDaVezConnectionId.Equals(JogadorLocal.ConnectionId) ?
                 JogadorFora.ConnectionId : JogadorLocal.ConnectionId;
-    }
+    } 
 }

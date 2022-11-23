@@ -38,5 +38,13 @@ public class ApplicationDbContext : DbContext
                 .HasColumnName("JogadorFora_ConnectionIdd");
         });
 
+        builder.OwnsOne(c => c.Tabuleiro, tabuleiro =>
+        {
+            tabuleiro.Property(c => c._posicoes)
+                .HasColumnName("Tabuleiro_Posicoes");
+
+            tabuleiro.Ignore(c => c.PosicoesArry);
+        });
+
     }
 }

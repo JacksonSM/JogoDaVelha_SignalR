@@ -25,6 +25,7 @@ public class PartidaHub : Hub
 
         await base.OnDisconnectedAsync(exception);
     }
+
     public async Task CriarPartida(string nome)
     {
         var connectionidDoJogador = Context.ConnectionId;
@@ -36,6 +37,7 @@ public class PartidaHub : Hub
 
         await Clients.Caller.SendAsync("ReceberCodigoDaPartida", novaPartida.CodigoPartida);
     }
+
     public async Task EntrarPartida(string nomeJogador, string codPartida)
     {
         var partida = await _partidaRepository.ObterPorCodigoAsync(codPartida);
@@ -55,6 +57,7 @@ public class PartidaHub : Hub
         await _partidaRepository.RemoverAsync(partidapRemover);
         await ComecarPartida(partida);
     }
+
     public async Task ComecarPartida(Partida partida)
     {
         var resposta = partida.Serializar();
@@ -62,4 +65,15 @@ public class PartidaHub : Hub
         await Clients.Clients(connectiosIds).SendAsync("ComecarPartida",resposta);
     }
 
+    public async Task MarcarPosicao(string posicao, string codPartida)
+    {
+        var partida = await _partidaRepository.ObterPorCodigoAsync(codPartida);
+
+        partida.MarcarPosicao(int.Parse(posicao), Context.ConnectionId);
+
+        await _partidaRepository.AtualizarAsync(partida);
+
+        await Clients.Clients(partida.JogadorLocal.ConnectionId, partida.JogadorFora.ConnectionId)
+            .SendAsync("AtualizarJogo", partida.Serializar());
+    }
 }

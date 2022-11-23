@@ -2,10 +2,26 @@
 
 public class Tabuleiro
 {
-    public string[] Posicoes { get; private set; }
+    public string _posicoes { get;  set; }
+    public string[] PosicoesArry 
+    {
+        get { return _posicoes.Split(","); }
+        set { _posicoes = string.Join(",", value);}
+    }
 
     public Tabuleiro()
     {
-        Posicoes = new string[9];
+        PosicoesArry = new string[9];
     }
+
+    public void MarcarPosicao(string marca,int posicao)
+    {
+        string[] str = new string[]{ "", "", "", "", "", "", "", "", "" };
+        str[posicao] = marca;
+        _posicoes = string.Join(",", str);
+        
+       
+    }
+
+
 }
