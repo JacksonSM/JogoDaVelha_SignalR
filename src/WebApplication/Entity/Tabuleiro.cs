@@ -1,10 +1,12 @@
 ﻿using WebApplication_Jogo.Entity.Execptions;
+using WebApplication_Jogo.Entity.Tools;
 
 namespace WebApplication_Jogo.Entity;
 
 public class Tabuleiro
 {
     public string Posicoes { get;  set; }
+    public bool Resultado;
 
     public Tabuleiro()
     {
@@ -17,6 +19,8 @@ public class Tabuleiro
         ExisteMarca(posicao);
 
         SetPosicoes(marca, posicao);
+
+        VarificarResultado();
     }
 
     private void ExisteMarca(int posicao)
@@ -34,5 +38,10 @@ public class Tabuleiro
         Posicoes = string.Join(",", posicoesArry);
     }
     private string[] GetPosicoes()=>
-        Posicoes.Split(',');   
+        Posicoes.Split(',');
+
+    public void VarificarResultado()
+    {
+        VerificadorTabuleiro.LinhaVertical(GetPosicoes());
+    }
 }
