@@ -1,8 +1,8 @@
-﻿using Newtonsoft.Json;
+﻿using Game.Services;
+using Newtonsoft.Json;
 using WebApplication_Jogo.Entity.Execptions;
-using WebApplication_Jogo.Services;
 
-namespace WebApplication_Jogo.Entity;
+namespace Game.Entity;
 
 public class Partida
 {
@@ -41,7 +41,7 @@ public class Partida
         if (!connectionId.Equals(JogadorDaVezConnectionId))
             throw new RegrasExceptions("Não é a vez do jogador.");
 
-        string marca = connectionId.Equals(JogadorLocal.ConnectionId) 
+        string marca = connectionId.Equals(JogadorLocal.ConnectionId)
             ? JogadorLocal.Marca : JogadorFora.Marca;
 
         Tabuleiro.MarcarPosicao(marca, posicao);
@@ -72,5 +72,5 @@ public class Partida
     {
         JogadorDaVezConnectionId = JogadorDaVezConnectionId.Equals(JogadorLocal.ConnectionId) ?
                 JogadorFora.ConnectionId : JogadorLocal.ConnectionId;
-    } 
+    }
 }

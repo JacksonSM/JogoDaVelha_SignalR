@@ -1,8 +1,8 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Game.Entity;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using WebApplication_Jogo.Entity;
 
-namespace WebApplication_Jogo.DataBase;
+namespace Game.DataBase;
 
 public class ApplicationDbContext : DbContext
 {

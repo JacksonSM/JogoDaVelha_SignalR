@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 
-namespace WebApplication_Jogo.Controllers;
+namespace Game.Controllers;
 public class HomeController : Controller
 {
     private readonly ILogger<HomeController> _logger;

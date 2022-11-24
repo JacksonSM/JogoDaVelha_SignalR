@@ -1,8 +1,9 @@
-﻿using Microsoft.AspNetCore.SignalR;
-using WebApplication_Jogo.DataBase;
+﻿using Game.DataBase;
+using Game.Entity;
+using Microsoft.AspNetCore.SignalR;
 using WebApplication_Jogo.Entity;
 
-namespace WebApplication_Jogo.Hubs;
+namespace Game.Hubs;
 
 public class PartidaHub : Hub
 {
@@ -43,7 +44,7 @@ public class PartidaHub : Hub
         var partida = await _partidaRepository.ObterPorCodigoAsync(codPartida);
 
         //remover a partida do banco de dados do jogador que vai entrar na partida
-        var partidapRemover = 
+        var partidapRemover =
             await _partidaRepository.ObterPartidaPorJogadorLocalAsync(Context.ConnectionId);
 
         if (partida != null)
@@ -61,8 +62,8 @@ public class PartidaHub : Hub
     public async Task ComecarPartida(Partida partida)
     {
         var resposta = partida.Serializar();
-        var connectiosIds = new string[]{partida.JogadorLocal.ConnectionId,partida.JogadorFora.ConnectionId };
-        await Clients.Clients(connectiosIds).SendAsync("ComecarPartida",resposta);
+        var connectiosIds = new string[] { partida.JogadorLocal.ConnectionId, partida.JogadorFora.ConnectionId };
+        await Clients.Clients(connectiosIds).SendAsync("ComecarPartida", resposta);
     }
 
     public async Task MarcarPosicao(string posicao, string codPartida)

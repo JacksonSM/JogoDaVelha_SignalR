@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.2.32630.192
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebApplication_Jogo", "src\WebApplication\WebApplication_Jogo.csproj", "{930D6ACF-AA6D-4935-BF42-C54F58368BA9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Game", "src\WebApplication\Game.csproj", "{930D6ACF-AA6D-4935-BF42-C54F58368BA9}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{6AD93DE1-CD53-46C7-A25D-CBC0D4BE89CF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -18,6 +20,9 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{930D6ACF-AA6D-4935-BF42-C54F58368BA9} = {6AD93DE1-CD53-46C7-A25D-CBC0D4BE89CF}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {EE7418BC-C35D-4885-8E9F-CD734D8D9F08}

@@ -1,6 +1,6 @@
+using Game.DataBase;
+using Game.Hubs;
 using Microsoft.EntityFrameworkCore;
-using WebApplication_Jogo.DataBase;
-using WebApplication_Jogo.Hubs;
 
 var builder = WebApplication.CreateBuilder(args);
 

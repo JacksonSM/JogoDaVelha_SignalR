@@ -1,4 +1,4 @@
-﻿namespace WebApplication_Jogo.Entity.Execptions;
+﻿namespace Game.Entity.Execptions;
 
 public class RegrasExceptions : SystemException
 {

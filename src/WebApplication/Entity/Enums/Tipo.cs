@@ -1,4 +1,4 @@
-﻿namespace WebApplication_Jogo.Entity.Enums;
+﻿namespace Game.Entity.Enums;
 
 public enum Tipo
 {

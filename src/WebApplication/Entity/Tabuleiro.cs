@@ -1,20 +1,20 @@
-﻿using WebApplication_Jogo.Entity.Execptions;
-using WebApplication_Jogo.Entity.Tools;
+﻿using Game.Entity.Tools;
+using WebApplication_Jogo.Entity.Execptions;
 
-namespace WebApplication_Jogo.Entity;
+namespace Game.Entity;
 
 public class Tabuleiro
 {
-    public string Posicoes { get;  set; }
+    public string Posicoes { get; set; }
     public bool Resultado;
 
     public Tabuleiro()
     {
-        if(Posicoes is null)
-            Posicoes= ",,,,,,,,";
+        if (Posicoes is null)
+            Posicoes = ",,,,,,,,";
     }
 
-    public void MarcarPosicao(string marca,int posicao)
+    public void MarcarPosicao(string marca, int posicao)
     {
         ExisteMarca(posicao);
 
@@ -34,10 +34,10 @@ public class Tabuleiro
     private void SetPosicoes(string marca, int posicao)
     {
         var posicoesArry = GetPosicoes();
-        posicoesArry[posicao]= marca;
+        posicoesArry[posicao] = marca;
         Posicoes = string.Join(",", posicoesArry);
     }
-    private string[] GetPosicoes()=>
+    private string[] GetPosicoes() =>
         Posicoes.Split(',');
 
     public void VarificarResultado()

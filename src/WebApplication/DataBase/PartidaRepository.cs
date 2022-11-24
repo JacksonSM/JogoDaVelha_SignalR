@@ -1,7 +1,7 @@
-﻿using Microsoft.EntityFrameworkCore;
-using WebApplication_Jogo.Entity;
+﻿using Game.Entity;
+using Microsoft.EntityFrameworkCore;
 
-namespace WebApplication_Jogo.DataBase;
+namespace Game.DataBase;
 
 public class PartidaRepository
 {
