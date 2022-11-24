@@ -14,7 +14,7 @@ public class ApplicationDbContext : DbContext
     {
         MapearPartida(builder.Entity<Partida>());
     }
-    private void MapearPartida(EntityTypeBuilder<Partida> builder)
+    private static void MapearPartida(EntityTypeBuilder<Partida> builder)
     {
         builder.HasKey(x => x.Id);
 
@@ -40,10 +40,8 @@ public class ApplicationDbContext : DbContext
 
         builder.OwnsOne(c => c.Tabuleiro, tabuleiro =>
         {
-            tabuleiro.Property(c => c._posicoes)
+            tabuleiro.Property(c => c.Posicoes)
                 .HasColumnName("Tabuleiro_Posicoes");
-
-            tabuleiro.Ignore(c => c.PosicoesArry);
         });
 
     }

@@ -82,14 +82,12 @@ connection.on("AtualizarJogo", (partidaSerializada) => {
     var partida = JSON.parse(partidaSerializada);
 
     connectionIdJogadorDaVez = partida.JogadorDaVezConnectionId;
-    console.log(partida);
 
-    atualizarTabuleiro(partida.Tabuleiro.PosicoesArry);
+    atualizarTabuleiro(partida.Tabuleiro.Posicoes.split(","));
     atualizarNomeJogadorDaVez();
 });
 
 function atualizarTabuleiro(posicoesArry) {
-    console.log(posicoesArry);
     for (var i = 0; i < posicoes.length; i++) {
         posicoes[i].innerHTML = posicoesArry[i];
     }

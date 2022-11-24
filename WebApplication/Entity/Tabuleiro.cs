@@ -1,27 +1,38 @@
-﻿namespace WebApplication_Jogo.Entity;
+﻿using WebApplication_Jogo.Entity.Execptions;
+
+namespace WebApplication_Jogo.Entity;
 
 public class Tabuleiro
 {
-    public string _posicoes { get;  set; }
-    public string[] PosicoesArry 
-    {
-        get { return _posicoes.Split(","); }
-        set { _posicoes = string.Join(",", value);}
-    }
+    public string Posicoes { get;  set; }
 
     public Tabuleiro()
     {
-        PosicoesArry = new string[9];
+        if(Posicoes is null)
+            Posicoes= ",,,,,,,,";
     }
 
     public void MarcarPosicao(string marca,int posicao)
     {
-        string[] str = new string[]{ "", "", "", "", "", "", "", "", "" };
-        str[posicao] = marca;
-        _posicoes = string.Join(",", str);
-        
-       
+        ExisteMarca(posicao);
+
+        SetPosicoes(marca, posicao);
     }
 
+    private void ExisteMarca(int posicao)
+    {
+        var posicoesArry = GetPosicoes();
+        var FoiMarcado = posicoesArry[posicao] != "";
 
+        if (FoiMarcado) throw new RegrasExceptions("Esta posição já foi marcada!");
+    }
+
+    private void SetPosicoes(string marca, int posicao)
+    {
+        var posicoesArry = GetPosicoes();
+        posicoesArry[posicao]= marca;
+        Posicoes = string.Join(",", posicoesArry);
+    }
+    private string[] GetPosicoes()=>
+        Posicoes.Split(',');   
 }
