@@ -1,6 +1,7 @@
-﻿using Game.Services;
+﻿using Game.Entity.Execptions;
+using Game.Services;
 using Newtonsoft.Json;
-using WebApplication_Jogo.Entity.Execptions;
+using System.Numerics;
 
 namespace Game.Entity;
 
@@ -36,7 +37,7 @@ public class Partida
         JogadorFora = jogadorFora;
     }
 
-    public void MarcarPosicao(int posicao, string connectionId)
+    public void MarcarPosicao(Vector2 posicao, string connectionId)
     {
         if (!connectionId.Equals(JogadorDaVezConnectionId))
             throw new RegrasExceptions("Não é a vez do jogador.");

@@ -1,7 +1,7 @@
 ﻿using Game.DataBase;
 using Game.Entity;
 using Microsoft.AspNetCore.SignalR;
-using WebApplication_Jogo.Entity;
+using System.Numerics;
 
 namespace Game.Hubs;
 
@@ -70,7 +70,10 @@ public class PartidaHub : Hub
     {
         var partida = await _partidaRepository.ObterPorCodigoAsync(codPartida);
 
-        partida.MarcarPosicao(int.Parse(posicao), Context.ConnectionId);
+        var dividi = posicao.Split(",");
+        var posic = new Vector2(float.Parse(dividi[0]), float.Parse(dividi[1]));
+        
+        partida.MarcarPosicao(posic, Context.ConnectionId);
 
         await _partidaRepository.AtualizarAsync(partida);
 
