@@ -68,7 +68,7 @@ public class Tabuleiro
 
     public void VarificarResultado()
     {
-
+        VerificadorTabuleiro.Linha(GetPosicoes());
         VerificadorTabuleiro.Coluna(GetPosicoes());
     }
 
