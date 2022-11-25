@@ -14,6 +14,7 @@ public class VerificadorTabuleiroTest
 
         Assert.True(resultado);
     }
+
     [Fact]
     public void ASegundaColunaDeveTerValoresIguais()
     {
@@ -25,6 +26,7 @@ public class VerificadorTabuleiroTest
 
         Assert.True(resultado);
     }
+
     [Fact]
     public void ATerceiraColunaDeveTerValoresIguais()
     {
@@ -36,4 +38,5 @@ public class VerificadorTabuleiroTest
 
         Assert.True(resultado);
     }
+
 }

@@ -23,4 +23,5 @@ public class VerificadorTabuleiro
 
         return false;
     }
+
 }

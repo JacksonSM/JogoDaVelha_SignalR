@@ -7,8 +7,8 @@ namespace Game.Entity;
 public class Tabuleiro
 {
     public string Posicoes { get; set; }
-    public bool Resultado;
 
+    public delegate string FimDeJogo(string vencedor, string posicoes);
 
     public Tabuleiro()
     {
@@ -22,9 +22,13 @@ public class Tabuleiro
 
         SetPosicoes(marca, posicao);
 
-
+        VarificarResultado();
     }
 
+    /// <summary>
+    /// Verifica se a posição que deseja marca, já foi marcada.
+    /// </summary>
+    /// <param name="posicao">A posição que deseja verificar, X = Linha e Y = Coluna</param>
     private void ExisteMarca(Vector2 posicao)
     {
         var posicoesArry = GetPosicoes();
@@ -33,6 +37,11 @@ public class Tabuleiro
         if (FoiMarcado) throw new RegrasExceptions("Esta posição já foi marcada!");
     }
 
+    /// <summary>
+    /// Esse metodo atribuir ao tabuleiro uma marca, exemplo: "O" ou "X"
+    /// </summary>
+    /// <param name="marca">A marca que deve ser usada para exibir no tabuleiro.</param>
+    /// <param name="posicao">A posição onde deve ser atribuida a marca, X = Linha e Y = Coluna</param>
     private void SetPosicoes(string marca, Vector2 posicao)
     {
         var posicoesArry = GetPosicoes();
@@ -42,6 +51,11 @@ public class Tabuleiro
                                             posicoesArry[1,0], posicoesArry[1,1], posicoesArry[1,2],
                                             posicoesArry[2,0], posicoesArry[2,1], posicoesArry[2,2]});
     }
+
+    /// <summary>
+    /// Para uma melhor manipulação do tabuleiro esse metodo devolve a string tabuleiro em um matriz.
+    /// </summary>
+    /// <returns>O retorno será o tabuleiro em string para uma matriz 3x3.</returns>
     private string[,] GetPosicoes() {
         var arry = Posicoes.Split(',');
 
@@ -52,5 +66,10 @@ public class Tabuleiro
         return posicoesEmMatriz;
     }
 
+    public void VarificarResultado()
+    {
+
+        VerificadorTabuleiro.Coluna(GetPosicoes());
+    }
 
 }
