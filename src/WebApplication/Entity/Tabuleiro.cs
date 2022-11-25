@@ -13,7 +13,7 @@ public class Tabuleiro
     public Tabuleiro()
     {
         if (Posicoes is null)
-            Posicoes = ",,,,,,,,";
+                Posicoes = ",,,,,,,,";
     }
 
     public void MarcarPosicao(string marca, Vector2 posicao)
@@ -68,8 +68,9 @@ public class Tabuleiro
 
     public void VarificarResultado()
     {
-        VerificadorTabuleiro.Linha(GetPosicoes());
-        VerificadorTabuleiro.Coluna(GetPosicoes());
+        //VerificadorTabuleiro.Linha(GetPosicoes());
+        //VerificadorTabuleiro.Coluna(GetPosicoes());
+        //VerificadorTabuleiro.Diagonal(GetPosicoes());
     }
 
 }

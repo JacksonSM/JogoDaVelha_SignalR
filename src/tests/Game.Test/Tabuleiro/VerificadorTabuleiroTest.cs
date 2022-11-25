@@ -10,9 +10,10 @@ public class VerificadorTabuleiroTest
                                            { "A", "E", "F" },
                                            { "A", "H", "I" } };
 
-        var resultado = VerificadorTabuleiro.Coluna(tabuleiro);
+        var verificador = new VerificadorTabuleiro();
+        var resultado = verificador.Verificar(tabuleiro);
 
-        Assert.True(resultado);
+        Assert.Equal(new string[]{"0,0","1,0","2,0"},resultado);
     }
 
     [Fact]
@@ -22,9 +23,10 @@ public class VerificadorTabuleiroTest
                                            { "K", "B", "F" },
                                            { "P", "B", "I" } };
 
-        var resultado = VerificadorTabuleiro.Coluna(tabuleiro);
+        var verificador = new VerificadorTabuleiro();
+        var resultado = verificador.Verificar(tabuleiro);
 
-        Assert.True(resultado);
+        Assert.Equal(new string[] { "0,1", "1,1", "2,1" }, resultado);
     }
 
     [Fact]
@@ -34,9 +36,10 @@ public class VerificadorTabuleiroTest
                                            { "H", "E", "C" },
                                            { "L", "H", "C" } };
 
-        var resultado = VerificadorTabuleiro.Coluna(tabuleiro);
+        var verificador = new VerificadorTabuleiro();
+        var resultado = verificador.Verificar(tabuleiro);
 
-        Assert.True(resultado);
+        Assert.Equal(new string[] { "0,2", "1,2", "2,2" }, resultado);
     }
 
     [Fact]
@@ -46,9 +49,10 @@ public class VerificadorTabuleiroTest
                                            { "P", "E", "F" },
                                            { "A", "H", "I" } };
 
-        var resultado = VerificadorTabuleiro.Linha(tabuleiro);
+        var verificador = new VerificadorTabuleiro();
+        var resultado = verificador.Verificar(tabuleiro);
 
-        Assert.True(resultado);
+        Assert.Equal(new string[] { "0,0", "0,1", "0,2" }, resultado);
     }
 
     [Fact]
@@ -58,9 +62,10 @@ public class VerificadorTabuleiroTest
                                            { "K", "K", "K" },
                                            { "P", "B", "I" } };
 
-        var resultado = VerificadorTabuleiro.Linha(tabuleiro);
+        var verificador = new VerificadorTabuleiro();
+        var resultado = verificador.Verificar(tabuleiro);
 
-        Assert.True(resultado);
+        Assert.Equal(new string[] { "1,0", "1,1", "1,2" }, resultado);
     }
 
     [Fact]
@@ -70,8 +75,36 @@ public class VerificadorTabuleiroTest
                                            { "K", "E", "C" },
                                            { "L", "L", "L" } };
 
-        var resultado = VerificadorTabuleiro.Linha(tabuleiro);
+        var verificador = new VerificadorTabuleiro();
+        var resultado = verificador.Verificar(tabuleiro);
 
-        Assert.True(resultado);
+        Assert.Equal(new string[] { "2,0", "2,1", "2,2" }, resultado);
     }
+
+    [Fact]
+    public void APrimeiraDiagonalDeveTerValoresIguais()
+    {
+        var tabuleiro = new string[3, 3] { { "A", "B", "C" },
+                                           { "K", "A", "K" },
+                                           { "P", "B", "A" } };
+
+        var verificador = new VerificadorTabuleiro();
+        var resultado = verificador.Verificar(tabuleiro);
+
+        Assert.Equal(new string[] { "0,0", "1,1", "2,2" }, resultado);
+    }
+
+    [Fact]
+    public void ASegundaDiagonalDeveTerValoresIguais()
+    {
+        var tabuleiro = new string[3, 3] { { "P", "B", "L" },
+                                           { "K", "L", "C" },
+                                           { "L", "G", "E" } };
+
+        var verificador = new VerificadorTabuleiro();
+        var resultado = verificador.Verificar(tabuleiro);
+
+        Assert.Equal(new string[] { "2,0", "1,1", "0,2" }, resultado);
+    }
+
 }
