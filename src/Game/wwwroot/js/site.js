@@ -1,5 +1,8 @@
 ﻿const posicoes = document.getElementsByClassName("posicao");
 
+const btnRevanche = document.getElementById("btnRevanche");
+const btnNovaPartida = document.getElementById("btnNovaPartida");
+
 const formCriarPartida = document.getElementById("formCriarPartida");
 const formEntrarPartida = document.getElementById("formEntrarPartida");
 
@@ -47,6 +50,10 @@ formEntrarPartida.addEventListener("submit", function (evento) {
     connection.invoke("EntrarPartida", nomeJogador, cod.value);
 });
 
+btnNovaPartida.addEventListener("click", function (evento) {
+    location.reload();
+});
+
 connection.on("ReceberCodigoDaPartida", (codigo) => {
 
     document.getElementById('formCriarPartida').style.display = 'none';
@@ -89,13 +96,20 @@ connection.on("AtualizarJogo", (partidaSerializada) => {
 
 connection.on("FimJogo", (partidaSerializada, vencedor) => {
     var partida = JSON.parse(partidaSerializada);
-    console.log(partida);
+
     atualizarTabuleiro(partida.Tabuleiro.Posicoes.split(","));
 
-    alert("O vencedor foi " + vencedor);
-    location.reload();
+    exibirResultadoModal("Vitoria de " + vencedor);
 });
 
+function exibirResultadoModal(texto) {
+    const textoModal = document.getElementById("resultadoTitulo");
+    textoModal.innerHTML = texto;
+
+    $("#resultadoModal").modal({
+        show: true
+    });
+}
 
 function atualizarTabuleiro(posicoesArry) {
     for (var i = 0; i < posicoes.length; i++) {
