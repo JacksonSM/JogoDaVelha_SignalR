@@ -73,11 +73,19 @@ public class PartidaHub : Hub
         var dividi = posicao.Split(",");
         var posic = new Vector2(float.Parse(dividi[0]), float.Parse(dividi[1]));
         
-        partida.MarcarPosicao(posic, Context.ConnectionId);
+        partida.MarcarPosicao(posic, Context.ConnectionId, FimJogo);
 
         await _partidaRepository.AtualizarAsync(partida);
 
         await Clients.Clients(partida.JogadorLocal.ConnectionId, partida.JogadorFora.ConnectionId)
             .SendAsync("AtualizarJogo", partida.Serializar());
+    }
+
+    public async Task FimJogo(Partida partida , string vencedor)
+    {
+        await _partidaRepository.RemoverAsync(partida);
+
+        await Clients.Clients(partida.JogadorLocal.ConnectionId, partida.JogadorFora.ConnectionId)
+            .SendAsync("FimJogo", partida.Serializar(), vencedor);
     }
 }

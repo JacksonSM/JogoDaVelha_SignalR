@@ -19,6 +19,9 @@ public class Partida
 
     public string JogadorDaVezConnectionId { get; private set; }
 
+
+    public delegate Task FimDeJogo(Partida partida, string vencedor);
+
     public Partida() { }
 
     public Partida(Jogador jogadorLocal)
@@ -37,7 +40,7 @@ public class Partida
         JogadorFora = jogadorFora;
     }
 
-    public void MarcarPosicao(Vector2 posicao, string connectionId)
+    public void MarcarPosicao(Vector2 posicao, string connectionId, FimDeJogo fimDeJogo)
     {
         if (!connectionId.Equals(JogadorDaVezConnectionId))
             throw new RegrasExceptions("Não é a vez do jogador.");
@@ -47,21 +50,16 @@ public class Partida
 
         Tabuleiro.MarcarPosicao(marca, posicao);
 
-        TrocarAVez();
-    }
-
-    public string JogadorDaVez()
-    {
-        string jogadorId = string.Empty;
-
-        if (JogadorFora != null)
+        if (Tabuleiro.PosicoesIguais != null)
         {
-            jogadorId = JogadorDaVezConnectionId;
+            var nomeJogadorVez = connectionId.Equals(JogadorLocal.ConnectionId)
+            ? JogadorLocal.Nome : JogadorFora.Nome;
 
-            TrocarAVez();
+            fimDeJogo(this, nomeJogadorVez);
         }
+            
 
-        return jogadorId;
+        TrocarAVez();
     }
 
     public string Serializar()

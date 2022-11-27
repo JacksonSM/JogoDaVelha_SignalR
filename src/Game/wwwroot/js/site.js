@@ -87,6 +87,16 @@ connection.on("AtualizarJogo", (partidaSerializada) => {
     atualizarNomeJogadorDaVez();
 });
 
+connection.on("FimJogo", (partidaSerializada, vencedor) => {
+    var partida = JSON.parse(partidaSerializada);
+    console.log(partida);
+    atualizarTabuleiro(partida.Tabuleiro.Posicoes.split(","));
+
+    alert("O vencedor foi " + vencedor);
+    location.reload();
+});
+
+
 function atualizarTabuleiro(posicoesArry) {
     for (var i = 0; i < posicoes.length; i++) {
         posicoes[i].innerHTML = posicoesArry[i];

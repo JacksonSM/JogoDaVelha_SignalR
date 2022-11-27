@@ -10,7 +10,7 @@ public class VerificadorTabuleiro
     /// Verifica se há valores igual nas linhas, colunas e diagonais de uma matriz 3x3.
     /// </summary>
     /// <param name="tabuleiro">Deve ser uma matriz 3x3</param>
-    /// <returns>Retorna uma arry com 3 valores, que se refere as posições iguais, caso não haja, sera retornado null</returns>
+    /// <returns>Retorna uma arry com 3 valores, que se refere as posições iguais, caso não haja, será retornado null</returns>
     /// <exception cref="RegrasExceptions">será lançada uma caso a matriz não seja 3x3</exception>
     public string[] Verificar(string[,] tabuleiro)
     {
@@ -24,8 +24,8 @@ public class VerificadorTabuleiro
         if (string.IsNullOrEmpty(posicoesIguais))
                 return null;
 
-        var posicoesDivido = posicoesIguais.Split("|");
-        return posicoesDivido;
+        var posicoesDividas = posicoesIguais.Split("|");
+        return posicoesDividas;
     }
 
 

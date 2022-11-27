@@ -8,7 +8,7 @@ public class Tabuleiro
 {
     public string Posicoes { get; set; }
 
-    public delegate string FimDeJogo(string vencedor, string posicoes);
+    public string?[] PosicoesIguais { get; set; }
 
     public Tabuleiro()
     {
@@ -22,7 +22,11 @@ public class Tabuleiro
 
         SetPosicoes(marca, posicao);
 
-        VarificarResultado();
+        var verificador = new VerificadorTabuleiro();
+        var resultado = verificador.Verificar(GetPosicoes());
+        
+        if(resultado != null)
+            PosicoesIguais = resultado;
     }
 
     /// <summary>
@@ -65,12 +69,4 @@ public class Tabuleiro
 
         return posicoesEmMatriz;
     }
-
-    public void VarificarResultado()
-    {
-        //VerificadorTabuleiro.Linha(GetPosicoes());
-        //VerificadorTabuleiro.Coluna(GetPosicoes());
-        //VerificadorTabuleiro.Diagonal(GetPosicoes());
-    }
-
 }
