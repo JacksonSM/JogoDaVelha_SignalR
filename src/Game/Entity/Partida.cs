@@ -50,6 +50,15 @@ public class Partida
 
         Tabuleiro.MarcarPosicao(marca, posicao);
 
+        var empate = Tabuleiro.VerificarEmapate();
+
+        if (empate)
+        {
+
+
+            fimDeJogo(this, "Empate");
+        }
+
         if (Tabuleiro.PosicoesIguais != null)
         {
             var nomeJogadorVez = connectionId.Equals(JogadorLocal.ConnectionId)

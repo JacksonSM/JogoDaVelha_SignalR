@@ -1,6 +1,7 @@
 ﻿using Game.Entity.Execptions;
 using Game.Entity.Tools;
 using System.Numerics;
+using System.Linq;
 
 namespace Game.Entity;
 
@@ -27,6 +28,14 @@ public class Tabuleiro
         
         if(resultado != null)
             PosicoesIguais = resultado;
+    }
+
+    public bool VerificarEmapate()
+    {
+        var posicoes = Posicoes.Split(',');
+        var ExisteEspacoVazio = Array.Exists(posicoes, x => x.Equals(""));
+
+        return !ExisteEspacoVazio;
     }
 
     /// <summary>

@@ -1,6 +1,6 @@
 ﻿const posicoes = document.getElementsByClassName("posicao");
 
-const btnRevancheModal = document.getElementById("btnRevanche");
+const btnJogarNovamente = document.getElementById("btnJogarNovamente");
 const btnNovaPartidaModal = document.getElementById("btnNovaPartida");
 const resultadoTextoModal = document.getElementById("resultadoTexto");
 const statusAdversario = document.getElementById("statusAdversario");
@@ -56,7 +56,7 @@ btnNovaPartida.addEventListener("click", function () {
     location.reload();
 });
 
-btnRevancheModal.addEventListener("click", function () {
+btnJogarNovamente.addEventListener("click", function () {
 
     if (fuiDesafiado)
     {
@@ -72,7 +72,7 @@ btnRevancheModal.addEventListener("click", function () {
         resultadoTextoModal.appendChild(spanElement);
 
         connection.invoke("JogarNovamente", codPartida);
-        btnRevancheModal.disabled = false;
+        btnJogarNovamente.disabled = false;
     }
 })
 
@@ -122,19 +122,24 @@ connection.on("FimJogo", (partidaSerializada, vencedor) => {
 
     atualizarTabuleiro(partida.Tabuleiro.Posicoes.split(","));
 
-    var texto = vencedor == nomeJogador ? "Parabéns! você foi mais esperto que seu adversário" :
-        "Infelizmente não foi dessa vez :( Peça revanche e a próxima será sua"
-
-    var btnRevancheText = vencedor == nomeJogador ? "Jogar novamente" :
-        "Revanche"
-
-
-    exibirResultadoModal("Vitoria de " + vencedor + "! ", texto, btnRevancheText);
+    var titulo;
+    var texto;
+    if (vencedor == "Empate") {
+        titulo = "Empate! "
+        texto = "Uau! que partida disputada.";
+    }
+    else
+    {
+        titulo = "Vitoria de " + vencedor + "! "
+        texto = vencedor == nomeJogador ? "Parabéns! você foi mais esperto que seu adversário" :
+            "Infelizmente não foi dessa vez :( Peça revanche e a próxima será sua"
+    }
+    exibirResultadoModal(titulo, texto);
 });
 
 connection.on("AdversarioDesconectado", () => {
-    btnRevancheModal.disabled = false;
-    btnRevancheModal.classList.replace("btn-success", "btn-secondary");
+    btnJogarNovamente.disabled = false;
+    btnJogarNovamente.classList.replace("btn-success", "btn-secondary");
 
     var spanElement = document.createElement("SPAN");
     spanElement.style.color = "#ff0000";
@@ -147,18 +152,16 @@ connection.on("AdversarioDesconectado", () => {
 connection.on("ConviteJogarNovamente", () => {
     var spanElement = document.createElement("SPAN");
     spanElement.style.color = "#28A745";
-    var text = document.createTextNode(" O seu adversário que jogar novamente");
+    var text = document.createTextNode(" O seu adversário quer jogar novamente");
     spanElement.appendChild(text);
     fuiDesafiado = true;
     statusAdversario.appendChild(spanElement);
 });
 
-function exibirResultadoModal(titulo, texto, btnRevancheText) {
+function exibirResultadoModal(titulo, texto) {
     var resultadoTituloModal = document.getElementById("resultadoTitulo");
     resultadoTituloModal.innerHTML = titulo;
     resultadoTextoModal.innerHTML = texto;
-    console.log(btnRevancheText);
-    btnRevancheModal.textContent = btnRevancheText;
 
     $("#resultadoModal").modal({
         show: true
