@@ -91,4 +91,23 @@ public class PartidaHub : Hub
         await Clients.Clients(partida.JogadorLocal.ConnectionId, partida.JogadorFora.ConnectionId)
             .SendAsync("FimJogo", partida.Serializar(), vencedor);
     }
+
+    public async Task JogarNovamente(string codPartida)
+    {
+        var partida = await _partidaRepository.ObterPorCodigoAsync(codPartida);
+
+        var adversarioConnectionId = partida.JogadorFora.ConnectionId == Context.ConnectionId ?
+            partida.JogadorLocal.ConnectionId : partida.JogadorFora.ConnectionId;
+
+        await Clients.Client(adversarioConnectionId).SendAsync("ConviteJogarNovamente");
+    }
+
+    public async Task JogarNovamenteAceito(string codPartida)
+    {
+        var partida = await _partidaRepository.ObterPorCodigoAsync(codPartida);
+        partida.Resetar();
+        await _partidaRepository.AtualizarAsync(partida);
+
+        await ComecarPartida(partida);
+    }
 }

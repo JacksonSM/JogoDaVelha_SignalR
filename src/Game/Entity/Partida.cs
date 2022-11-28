@@ -72,4 +72,10 @@ public class Partida
         JogadorDaVezConnectionId = JogadorDaVezConnectionId.Equals(JogadorLocal.ConnectionId) ?
                 JogadorFora.ConnectionId : JogadorLocal.ConnectionId;
     }
+
+    public void Resetar()
+    {
+        JogadorDaVezConnectionId = JogadorLocal.ConnectionId;
+        Tabuleiro.Resetar();
+    }
 }

@@ -69,4 +69,10 @@ public class Tabuleiro
 
         return posicoesEmMatriz;
     }
+
+    public void Resetar()
+    {
+        Posicoes = ",,,,,,,,";
+        PosicoesIguais = null;
+    }
 }

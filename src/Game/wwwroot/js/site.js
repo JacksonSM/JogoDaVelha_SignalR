@@ -3,6 +3,7 @@
 const btnRevancheModal = document.getElementById("btnRevanche");
 const btnNovaPartidaModal = document.getElementById("btnNovaPartida");
 const resultadoTextoModal = document.getElementById("resultadoTexto");
+const statusAdversario = document.getElementById("statusAdversario");
 
 const formCriarPartida = document.getElementById("formCriarPartida");
 const formEntrarPartida = document.getElementById("formEntrarPartida");
@@ -15,6 +16,7 @@ let connectionIdJogadorDaVez;
 let nomeJogador = "";
 let nomeJogadorOponente = "";
 let codPartida = "";
+let fuiDesafiado = false;
 
 const connection = new signalR.HubConnectionBuilder()
     .withUrl("/jogo-da-velha-hub")
@@ -38,7 +40,6 @@ connection.onclose(async () => {
 
 formCriarPartida.addEventListener("submit", function (evento) {
     evento.preventDefault();
-    console.log("entrou!!!!!!");
     const nome = evento.target.elements['fnome'];
     nomeJogador = nome.value;
     connection.invoke("CriarPartida", nome.value);
@@ -51,9 +52,29 @@ formEntrarPartida.addEventListener("submit", function (evento) {
     connection.invoke("EntrarPartida", nomeJogador, cod.value);
 });
 
-btnNovaPartida.addEventListener("click", function (evento) {
+btnNovaPartida.addEventListener("click", function () {
     location.reload();
 });
+
+btnRevancheModal.addEventListener("click", function () {
+
+    if (fuiDesafiado)
+    {
+        connection.invoke("JogarNovamenteAceito", codPartida);
+    }
+    else
+    {
+        var spanElement = document.createElement("SPAN");
+        spanElement.style.color = "#28A745";
+        var text = document.createTextNode(" Aguardando seu adversário...");
+        spanElement.appendChild(text);
+
+        resultadoTextoModal.appendChild(spanElement);
+
+        connection.invoke("JogarNovamente", codPartida);
+        btnRevancheModal.disabled = false;
+    }
+})
 
 connection.on("ReceberCodigoDaPartida", (codigo) => {
 
@@ -66,6 +87,7 @@ connection.on("ReceberCodigoDaPartida", (codigo) => {
 });
 
 connection.on("ComecarPartida", (partidaSerilizado) => {
+    $('#resultadoModal').modal('hide');
 
     var partida = JSON.parse(partidaSerilizado);
     formEntrarPartida.style.display = "none"
@@ -103,8 +125,11 @@ connection.on("FimJogo", (partidaSerializada, vencedor) => {
     var texto = vencedor == nomeJogador ? "Parabéns! você foi mais esperto que seu adversário" :
         "Infelizmente não foi dessa vez :( Peça revanche e a próxima será sua"
 
+    var btnRevancheText = vencedor == nomeJogador ? "Jogar novamente" :
+        "Revanche"
 
-    exibirResultadoModal("Vitoria de "+ vencedor +"! ", texto);
+
+    exibirResultadoModal("Vitoria de " + vencedor + "! ", texto, btnRevancheText);
 });
 
 connection.on("AdversarioDesconectado", () => {
@@ -116,13 +141,24 @@ connection.on("AdversarioDesconectado", () => {
     var text = document.createTextNode(" O seu adversário correu!");
     spanElement.appendChild(text);
 
-    resultadoTextoModal.appendChild(spanElement);
+    statusAdversario.appendChild(spanElement);
 });
 
-function exibirResultadoModal(titulo, texto) {
+connection.on("ConviteJogarNovamente", () => {
+    var spanElement = document.createElement("SPAN");
+    spanElement.style.color = "#28A745";
+    var text = document.createTextNode(" O seu adversário que jogar novamente");
+    spanElement.appendChild(text);
+    fuiDesafiado = true;
+    statusAdversario.appendChild(spanElement);
+});
+
+function exibirResultadoModal(titulo, texto, btnRevancheText) {
     var resultadoTituloModal = document.getElementById("resultadoTitulo");
     resultadoTituloModal.innerHTML = titulo;
     resultadoTextoModal.innerHTML = texto;
+    console.log(btnRevancheText);
+    btnRevancheModal.textContent = btnRevancheText;
 
     $("#resultadoModal").modal({
         show: true
@@ -133,6 +169,11 @@ function atualizarTabuleiro(posicoesArry) {
     for (var i = 0; i < posicoes.length; i++) {
         posicoes[i].innerHTML = posicoesArry[i];
     }
+}
+
+function resetarPartida() {
+
+    
 }
 
 function resetarTabuleiro() {
@@ -149,7 +190,7 @@ function marcarPosicao(posicao) {
     } else {
         alert("Não é sua vez.");
     }
-        
+
 };
 
 function atualizarNomeJogadorDaVez() {
@@ -162,7 +203,7 @@ function atualizarNomeJogadorDaVez() {
     }
 
 
-} 
+}
 
 
 for (let posicao of posicoes) {
