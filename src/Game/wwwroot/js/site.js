@@ -1,7 +1,8 @@
 ﻿const posicoes = document.getElementsByClassName("posicao");
 
-const btnRevanche = document.getElementById("btnRevanche");
-const btnNovaPartida = document.getElementById("btnNovaPartida");
+const btnRevancheModal = document.getElementById("btnRevanche");
+const btnNovaPartidaModal = document.getElementById("btnNovaPartida");
+const resultadoTextoModal = document.getElementById("resultadoTexto");
 
 const formCriarPartida = document.getElementById("formCriarPartida");
 const formEntrarPartida = document.getElementById("formEntrarPartida");
@@ -37,7 +38,7 @@ connection.onclose(async () => {
 
 formCriarPartida.addEventListener("submit", function (evento) {
     evento.preventDefault();
-
+    console.log("entrou!!!!!!");
     const nome = evento.target.elements['fnome'];
     nomeJogador = nome.value;
     connection.invoke("CriarPartida", nome.value);
@@ -99,12 +100,29 @@ connection.on("FimJogo", (partidaSerializada, vencedor) => {
 
     atualizarTabuleiro(partida.Tabuleiro.Posicoes.split(","));
 
-    exibirResultadoModal("Vitoria de " + vencedor);
+    var texto = vencedor == nomeJogador ? "Parabéns! você foi mais esperto que seu adversário" :
+        "Infelizmente não foi dessa vez :( Peça revanche e a próxima será sua"
+
+
+    exibirResultadoModal("Vitoria de "+ vencedor +"! ", texto);
 });
 
-function exibirResultadoModal(texto) {
-    const textoModal = document.getElementById("resultadoTitulo");
-    textoModal.innerHTML = texto;
+connection.on("AdversarioDesconectado", () => {
+    btnRevancheModal.disabled = false;
+    btnRevancheModal.classList.replace("btn-success", "btn-secondary");
+
+    var spanElement = document.createElement("SPAN");
+    spanElement.style.color = "#ff0000";
+    var text = document.createTextNode(" O seu adversário correu!");
+    spanElement.appendChild(text);
+
+    resultadoTextoModal.appendChild(spanElement);
+});
+
+function exibirResultadoModal(titulo, texto) {
+    var resultadoTituloModal = document.getElementById("resultadoTitulo");
+    resultadoTituloModal.innerHTML = titulo;
+    resultadoTextoModal.innerHTML = texto;
 
     $("#resultadoModal").modal({
         show: true

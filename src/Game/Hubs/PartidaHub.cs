@@ -17,10 +17,15 @@ public class PartidaHub : Hub
 
     public override async Task OnDisconnectedAsync(Exception exception)
     {
-        var partida = await _partidaRepository.ObterPartidaPorJogadorLocalAsync(Context.ConnectionId);
+        var partida = await _partidaRepository.ObterPartidaPorJogadorAsync(Context.ConnectionId);
 
         if (partida != null)
         {
+            var adversarioConnectionId = partida.JogadorLocal.ConnectionId == Context.ConnectionId ? 
+                partida.JogadorFora.ConnectionId : partida.JogadorLocal.ConnectionId;
+
+            await Clients.Clients(adversarioConnectionId).SendAsync("AdversarioDesconectado");
+
             await _partidaRepository.RemoverAsync(partida);
         }
 
@@ -45,7 +50,7 @@ public class PartidaHub : Hub
 
         //remover a partida do banco de dados do jogador que vai entrar na partida
         var partidapRemover =
-            await _partidaRepository.ObterPartidaPorJogadorLocalAsync(Context.ConnectionId);
+            await _partidaRepository.ObterPartidaPorJogadorAsync(Context.ConnectionId);
 
         if (partida != null)
         {
@@ -83,8 +88,6 @@ public class PartidaHub : Hub
 
     public async Task FimJogo(Partida partida , string vencedor)
     {
-        await _partidaRepository.RemoverAsync(partida);
-
         await Clients.Clients(partida.JogadorLocal.ConnectionId, partida.JogadorFora.ConnectionId)
             .SendAsync("FimJogo", partida.Serializar(), vencedor);
     }

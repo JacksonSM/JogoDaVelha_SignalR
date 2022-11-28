@@ -33,9 +33,10 @@ public class PartidaRepository
        await _dbContext.Partidas
             .FirstOrDefaultAsync(x => x.CodigoPartida.Equals(codPartida));
 
-    public async Task<Partida> ObterPartidaPorJogadorLocalAsync(string connectionId) =>
+    public async Task<Partida> ObterPartidaPorJogadorAsync(string connectionId) =>
         await _dbContext.Partidas
-            .FirstOrDefaultAsync(a => a.JogadorLocal.ConnectionId.Contains(connectionId));
+            .FirstOrDefaultAsync(a => a.JogadorLocal.ConnectionId.Equals(connectionId) ||
+                                      a.JogadorFora.ConnectionId.Equals(connectionId));
 
 
 }
