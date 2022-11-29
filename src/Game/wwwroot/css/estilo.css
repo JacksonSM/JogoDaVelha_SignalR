@@ -48,15 +48,22 @@ h1 {
     position: absolute;
     transform: translateX(-440px);
     padding: 30px;
-    border: 10px solid #4CAF50;
+    border: 10px solid #000000;
     border-radius: 10px;
 }
 
-#formCriarPartida button {
-    margin-top: 20px;
+.painel *{
+    font-size: 22px;
+    margin-bottom: 20px;
 }
 
+#plJogadorLocal{
+    font-size: 24px;
+}
 
+#plJogadorFora {
+    font-size: 24px;
+}
 #formEntrarPartida {
     display: none;
 }
@@ -70,18 +77,19 @@ h1 {
     text-decoration: none;
     outline: none;
     color: #fff;
-    background-color: #4CAF50;
+    background-color: #000000;
     border: none;
     border-radius: 15px;
     box-shadow: 0 9px #999;
+    margin-bottom: 0;
 }
 
 .btnPainel:hover {
-    background-color: #3e8e41
+    background-color: #292929
 }
 
 .btnPainel:active {
-    background-color: #3e8e41;
+    background-color: #292929;
     box-shadow: 0 5px #666;
     transform: translateY(4px);
 }
@@ -90,6 +98,6 @@ h1 {
     display: none;
 }
 
-#statusAdversario{
+#statusAdversarioModal {
     margin-top: 20px;
 }
