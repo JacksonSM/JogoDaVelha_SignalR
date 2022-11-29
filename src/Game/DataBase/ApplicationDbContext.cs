@@ -42,8 +42,8 @@ public class ApplicationDbContext : DbContext
         {
             tabuleiro.Property(c => c.Posicoes)
                 .HasColumnName("Tabuleiro_Posicoes");
-
-            tabuleiro.Ignore(c => c.PosicoesIguais);
         });
+
+        builder.Ignore(c => c.Hub);
     }
 }

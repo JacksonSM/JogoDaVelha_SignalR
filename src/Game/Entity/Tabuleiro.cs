@@ -1,15 +1,21 @@
 ﻿using Game.Entity.Execptions;
 using Game.Entity.Tools;
 using System.Numerics;
-using System.Linq;
 
 namespace Game.Entity;
 
 public class Tabuleiro
 {
+    /// <summary>
+    /// Posicoes e o campo responsavel por armazenar os valores "X", "O" e "" do tabuleiro.
+    /// </summary>
+    /// <remarks>
+    /// A escolha do tipo foi devido a o banco de dados SQLite que não aceita arry.
+    /// </remarks>
     public string Posicoes { get; set; }
 
-    public string?[] PosicoesIguais { get; set; }
+    public delegate Task RetaIgual();
+    public delegate Task TabuleiroSemReta();
 
     public Tabuleiro()
     {
@@ -17,25 +23,21 @@ public class Tabuleiro
                 Posicoes = ",,,,,,,,";
     }
 
-    public void MarcarPosicao(string marca, Vector2 posicao)
+    /// <summary>
+    /// Método responsável por marcar posição no tabuleiro.
+    /// </summary>
+    /// <param name="marca">Caractere que será usado para marcar uma posição.</param>
+    /// <param name="posicao">Posição na tabela onde a marca será atribuida.</param>
+    /// <param name="retaIgual">Método que será invocado caso haja alguma reta com valores iguais.</param>
+    /// <param name="posicoesSemReta">
+    /// Método que será invocado, caso todas as posições estejam preenchidas e
+    /// não haja alguma reta com valores iguais.
+    /// </param>
+    public void MarcarPosicao( string marca, Vector2 posicao)
     {
         ExisteMarca(posicao);
 
         SetPosicoes(marca, posicao);
-
-        var verificador = new VerificadorTabuleiro();
-        var resultado = verificador.Verificar(GetPosicoes());
-        
-        if(resultado != null)
-            PosicoesIguais = resultado;
-    }
-
-    public bool VerificarEmapate()
-    {
-        var posicoes = Posicoes.Split(',');
-        var ExisteEspacoVazio = Array.Exists(posicoes, x => x.Equals(""));
-
-        return !ExisteEspacoVazio;
     }
 
     /// <summary>
@@ -51,7 +53,7 @@ public class Tabuleiro
     }
 
     /// <summary>
-    /// Esse metodo atribuir ao tabuleiro uma marca, exemplo: "O" ou "X"
+    /// Esse método atribui ao tabuleiro uma marca, exemplo: "O" ou "X"
     /// </summary>
     /// <param name="marca">A marca que deve ser usada para exibir no tabuleiro.</param>
     /// <param name="posicao">A posição onde deve ser atribuida a marca, X = Linha e Y = Coluna</param>
@@ -63,6 +65,30 @@ public class Tabuleiro
         Posicoes = string.Join(",", new[] { posicoesArry[0,0], posicoesArry[0,1], posicoesArry[0,2],
                                             posicoesArry[1,0], posicoesArry[1,1], posicoesArry[1,2],
                                             posicoesArry[2,0], posicoesArry[2,1], posicoesArry[2,2]});
+    }
+
+    /// <summary>
+    /// Fará uma varredura no tabuleiro em buscar de posições sem marca.
+    /// </summary>
+    /// <returns>Se encontrar alguma posição vazia retorna falso, caso contrario, true</returns>
+    public bool VerificarEmpate()
+    {
+        var posicoes = Posicoes.Split(',');
+        var ExisteEspacoVazio = Array.Exists(posicoes, x => x.Equals(""));
+        return !ExisteEspacoVazio;
+    }
+
+    /// <summary>
+    /// Fará uma varredura no tabuleiro em busca de uma sequência reta de 3 valores iguais,
+    /// que seria uma condição de vitoria.
+    /// </summary>
+    /// <returns>Se encontra uma sequência reta de 3 valores iguais retorna true, caso contrario, false.</returns>
+    public bool VerificarVitoria()
+    {
+        var verificador = new VerificadorTabuleiro();
+        var existeRetasIguais = verificador.Verificar(GetPosicoes());
+
+        return existeRetasIguais;
     }
 
     /// <summary>
@@ -79,9 +105,11 @@ public class Tabuleiro
         return posicoesEmMatriz;
     }
 
+    /// <summary>
+    /// Deixa todas as posições com a marca vazia.
+    /// </summary>
     public void Resetar()
     {
         Posicoes = ",,,,,,,,";
-        PosicoesIguais = null;
     }
 }

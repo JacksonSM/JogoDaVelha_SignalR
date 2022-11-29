@@ -1,7 +1,9 @@
 ﻿using Game.Entity.Execptions;
+using Game.Hubs;
 using Game.Services;
 using Newtonsoft.Json;
 using System.Numerics;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
 namespace Game.Entity;
 
@@ -19,8 +21,8 @@ public class Partida
 
     public string JogadorDaVezConnectionId { get; private set; }
 
-
-    public delegate Task FimDeJogo(Partida partida, string vencedor);
+    [JsonIgnore]
+    public PartidaHub Hub;
 
     public Partida() { }
 
@@ -40,35 +42,45 @@ public class Partida
         JogadorFora = jogadorFora;
     }
 
-    public void MarcarPosicao(Vector2 posicao, string connectionId, FimDeJogo fimDeJogo)
+    public async void MarcarPosicao(Vector2 posicao, string connectionId, PartidaHub hub)
     {
         if (!connectionId.Equals(JogadorDaVezConnectionId))
             throw new RegrasExceptions("Não é a vez do jogador.");
 
-        string marca = connectionId.Equals(JogadorLocal.ConnectionId)
-            ? JogadorLocal.Marca : JogadorFora.Marca;
+        Hub = hub;
 
+        string marca = ObterMarcaJogadorDaVez();
+            
         Tabuleiro.MarcarPosicao(marca, posicao);
 
-        var empate = Tabuleiro.VerificarEmapate();
+        var isEmpate = Tabuleiro.VerificarEmpate();
+        if (isEmpate)
+            await Empate();
 
-        if (empate)
-        {
-
-
-            fimDeJogo(this, "Empate");
-        }
-
-        if (Tabuleiro.PosicoesIguais != null)
-        {
-            var nomeJogadorVez = connectionId.Equals(JogadorLocal.ConnectionId)
-            ? JogadorLocal.Nome : JogadorFora.Nome;
-
-            fimDeJogo(this, nomeJogadorVez);
-        }
-            
+        var isVitoria = Tabuleiro.VerificarVitoria();
+        if(isVitoria)
+            await Vitoria();
 
         TrocarAVez();
+    }
+
+    /// <summary>
+    /// Finaliza a partida declarando um vencedor.
+    /// </summary>
+    public async Task Vitoria()
+    {
+        var nomeJogadorVez = JogadorDaVezConnectionId.Equals(JogadorLocal.ConnectionId)
+            ? JogadorLocal.Nome : JogadorFora.Nome;
+
+        await Hub.FimJogoVitoria(this, nomeJogadorVez);
+    }
+
+    /// <summary>
+    /// Finaliza a partida declarando o empate.
+    /// </summary>
+    public async Task Empate()
+    {
+        await Hub.FimJogoEmpate(this);
     }
 
     public string Serializar()
@@ -76,15 +88,19 @@ public class Partida
         return JsonConvert.SerializeObject(this);
     }
 
-    private void TrocarAVez()
-    {
-        JogadorDaVezConnectionId = JogadorDaVezConnectionId.Equals(JogadorLocal.ConnectionId) ?
-                JogadorFora.ConnectionId : JogadorLocal.ConnectionId;
-    }
-
     public void Resetar()
     {
         JogadorDaVezConnectionId = JogadorLocal.ConnectionId;
         Tabuleiro.Resetar();
+    }
+
+    private string ObterMarcaJogadorDaVez() =>
+     JogadorDaVezConnectionId.Equals(JogadorLocal.ConnectionId)
+        ? JogadorLocal.Marca : JogadorFora.Marca;
+
+    private void TrocarAVez()
+    {
+        JogadorDaVezConnectionId = JogadorDaVezConnectionId.Equals(JogadorLocal.ConnectionId) ?
+                JogadorFora.ConnectionId : JogadorLocal.ConnectionId;
     }
 }

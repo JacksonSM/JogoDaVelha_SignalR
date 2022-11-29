@@ -58,12 +58,11 @@ btnNovaPartida.addEventListener("click", function () {
 
 btnJogarNovamente.addEventListener("click", function () {
 
-    if (fuiDesafiado)
-    {
+    if (fuiDesafiado) {
         connection.invoke("JogarNovamenteAceito", codPartida);
+        fuiDesafiado = false;
     }
-    else
-    {
+    else {
         var spanElement = document.createElement("SPAN");
         spanElement.style.color = "#28A745";
         var text = document.createTextNode(" Aguardando seu adversário...");
@@ -109,7 +108,9 @@ connection.on("ComecarPartida", (partidaSerilizado) => {
 
 connection.on("AtualizarJogo", (partidaSerializada) => {
 
+    console.log('entrouu !!');
     var partida = JSON.parse(partidaSerializada);
+    console.log(partida);
 
     connectionIdJogadorDaVez = partida.JogadorDaVezConnectionId;
 
@@ -117,23 +118,30 @@ connection.on("AtualizarJogo", (partidaSerializada) => {
     atualizarNomeJogadorDaVez();
 });
 
-connection.on("FimJogo", (partidaSerializada, vencedor) => {
+connection.on("Vitoria", (partidaSerializada, vencedor) => {
     var partida = JSON.parse(partidaSerializada);
 
     atualizarTabuleiro(partida.Tabuleiro.Posicoes.split(","));
 
     var titulo;
     var texto;
-    if (vencedor == "Empate") {
-        titulo = "Empate! "
-        texto = "Uau! que partida disputada.";
-    }
-    else
-    {
-        titulo = "Vitoria de " + vencedor + "! "
-        texto = vencedor == nomeJogador ? "Parabéns! você foi mais esperto que seu adversário" :
-            "Infelizmente não foi dessa vez :( Peça revanche e a próxima será sua"
-    }
+    titulo = "Vitoria de " + vencedor + "! "
+    texto = vencedor == nomeJogador ? "Parabéns! você foi mais esperto que seu adversário" :
+        "Infelizmente não foi dessa vez :( Peça revanche e a próxima será sua"
+
+    exibirResultadoModal(titulo, texto);
+});
+
+connection.on("Empate", (partidaSerializada) => {
+    var partida = JSON.parse(partidaSerializada);
+
+    atualizarTabuleiro(partida.Tabuleiro.Posicoes.split(","));
+
+    var titulo;
+    var texto;
+    titulo = "Empate! "
+    texto = "Uau! que partida disputada.";
+
     exibirResultadoModal(titulo, texto);
 });
 
@@ -176,7 +184,7 @@ function atualizarTabuleiro(posicoesArry) {
 
 function resetarPartida() {
 
-    
+
 }
 
 function resetarTabuleiro() {
