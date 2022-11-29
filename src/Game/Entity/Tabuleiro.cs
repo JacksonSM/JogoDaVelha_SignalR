@@ -59,12 +59,12 @@ public class Tabuleiro
     /// <param name="posicao">A posição onde deve ser atribuida a marca, X = Linha e Y = Coluna</param>
     private void SetPosicoes(string marca, Vector2 posicao)
     {
-        var posicoesArry = GetPosicoes();
-        posicoesArry[(int)posicao.X, (int)posicao.Y] = marca;
+        var tabuleiro = GetPosicoes();
+        tabuleiro[(int)posicao.X, (int)posicao.Y] = marca;
 
-        Posicoes = string.Join(",", new[] { posicoesArry[0,0], posicoesArry[0,1], posicoesArry[0,2],
-                                            posicoesArry[1,0], posicoesArry[1,1], posicoesArry[1,2],
-                                            posicoesArry[2,0], posicoesArry[2,1], posicoesArry[2,2]});
+        Posicoes = string.Join(",", new[] { tabuleiro[0,0], tabuleiro[0,1], tabuleiro[0,2],
+                                            tabuleiro[1,0], tabuleiro[1,1], tabuleiro[1,2],
+                                            tabuleiro[2,0], tabuleiro[2,1], tabuleiro[2,2]});
     }
 
     /// <summary>
@@ -96,11 +96,11 @@ public class Tabuleiro
     /// </summary>
     /// <returns>O retorno será o tabuleiro em string para uma matriz 3x3.</returns>
     private string[,] GetPosicoes() {
-        var arry = Posicoes.Split(',');
+        var tabuleiro = Posicoes.Split(',');
 
-        var posicoesEmMatriz = new string[3, 3] { { arry[0], arry[1], arry[2] },
-                                                  { arry[3], arry[4], arry[5] },
-                                                  { arry[6], arry[7], arry[8] } };
+        var posicoesEmMatriz = new string[3, 3] { { tabuleiro[0], tabuleiro[1], tabuleiro[2] },
+                                                  { tabuleiro[3], tabuleiro[4], tabuleiro[5] },
+                                                  { tabuleiro[6], tabuleiro[7], tabuleiro[8] } };
 
         return posicoesEmMatriz;
     }

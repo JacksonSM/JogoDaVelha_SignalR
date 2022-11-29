@@ -75,10 +75,10 @@ public class PartidaHub : Hub
     {
         var partida = await _partidaRepository.ObterPorCodigoAsync(codPartida);
 
-        var dividi = posicao.Split(",");
-        var posic = new Vector2(float.Parse(dividi[0]), float.Parse(dividi[1]));
+        var posicoes = posicao.Split(",");
+        var vector = new Vector2(float.Parse(posicoes[0]), float.Parse(posicoes[1]));
         
-        partida.MarcarPosicao(posic, Context.ConnectionId, this);
+        partida.MarcarPosicao(vector, Context.ConnectionId, this);
 
         await _partidaRepository.AtualizarAsync(partida);
 

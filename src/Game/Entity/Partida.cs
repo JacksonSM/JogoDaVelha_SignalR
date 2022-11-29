@@ -3,7 +3,6 @@ using Game.Hubs;
 using Game.Services;
 using Newtonsoft.Json;
 using System.Numerics;
-using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
 namespace Game.Entity;
 
