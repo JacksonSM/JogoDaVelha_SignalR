@@ -13,7 +13,7 @@ public class VerificadorTabuleiroTest
         var verificador = new VerificadorTabuleiro();
         var resultado = verificador.Verificar(tabuleiro);
 
-        Assert.Equal(new string[]{"0,0","1,0","2,0"},resultado);
+        Assert.True(resultado);
     }
 
     [Fact]
@@ -26,7 +26,7 @@ public class VerificadorTabuleiroTest
         var verificador = new VerificadorTabuleiro();
         var resultado = verificador.Verificar(tabuleiro);
 
-        Assert.Equal(new string[] { "0,1", "1,1", "2,1" }, resultado);
+        Assert.True(resultado);
     }
 
     [Fact]
@@ -39,7 +39,7 @@ public class VerificadorTabuleiroTest
         var verificador = new VerificadorTabuleiro();
         var resultado = verificador.Verificar(tabuleiro);
 
-        Assert.Equal(new string[] { "0,2", "1,2", "2,2" }, resultado);
+        Assert.True(resultado);
     }
 
     [Fact]
@@ -52,7 +52,7 @@ public class VerificadorTabuleiroTest
         var verificador = new VerificadorTabuleiro();
         var resultado = verificador.Verificar(tabuleiro);
 
-        Assert.Equal(new string[] { "0,0", "0,1", "0,2" }, resultado);
+        Assert.True(resultado);
     }
 
     [Fact]
@@ -65,7 +65,7 @@ public class VerificadorTabuleiroTest
         var verificador = new VerificadorTabuleiro();
         var resultado = verificador.Verificar(tabuleiro);
 
-        Assert.Equal(new string[] { "1,0", "1,1", "1,2" }, resultado);
+        Assert.True(resultado);
     }
 
     [Fact]
@@ -78,7 +78,7 @@ public class VerificadorTabuleiroTest
         var verificador = new VerificadorTabuleiro();
         var resultado = verificador.Verificar(tabuleiro);
 
-        Assert.Equal(new string[] { "2,0", "2,1", "2,2" }, resultado);
+        Assert.True(resultado);
     }
 
     [Fact]
@@ -91,7 +91,7 @@ public class VerificadorTabuleiroTest
         var verificador = new VerificadorTabuleiro();
         var resultado = verificador.Verificar(tabuleiro);
 
-        Assert.Equal(new string[] { "0,0", "1,1", "2,2" }, resultado);
+        Assert.True(resultado);
     }
 
     [Fact]
@@ -104,7 +104,7 @@ public class VerificadorTabuleiroTest
         var verificador = new VerificadorTabuleiro();
         var resultado = verificador.Verificar(tabuleiro);
 
-        Assert.Equal(new string[] { "2,0", "1,1", "0,2" }, resultado);
+        Assert.True(resultado);
     }
 
 }
