@@ -3,7 +3,7 @@
 const btnJogarNovamenteModal = document.getElementById("btnJogarNovamente");
 const btnNovaPartidaModal = document.getElementById("btnNovaPartida");
 const resultadoTextoModal = document.getElementById("resultadoTexto");
-const statusAdversarioModal = document.getElementById("statusAdversario");
+const statusAdversarioModal = document.getElementById("statusAdversarioModal");
 
 const formCriarPartida = document.getElementById("formCriarPartida");
 const formEntrarPartida = document.getElementById("formEntrarPartida");
@@ -26,9 +26,7 @@ const connection = new signalR.HubConnectionBuilder()
 async function start() {
     try {
         await connection.start();
-        console.log("SignalR Connected.");
     } catch (err) {
-        console.log(err);
         setTimeout(start, 5000);
     }
 };
@@ -64,15 +62,11 @@ btnJogarNovamenteModal.addEventListener("click", function () {
     }
     else
     {
-        var spanElement = document.createElement("SPAN");
-        spanElement.style.color = "#28A745";
-        var text = document.createTextNode(" Aguardando seu adversário...");
-        spanElement.appendChild(text);
-
-        resultadoTextoModal.appendChild(spanElement);
+        statusAdversarioModal.style.color = "#28A745";
+        statusAdversarioModal.textContent = " Aguardando seu adversário...";
 
         connection.invoke("JogarNovamente", codPartida);
-        btnJogarNovamenteModal.disabled = false;
+        btnJogarNovamenteModal.disabled = true;
     }
 })
 
@@ -88,7 +82,7 @@ connection.on("ReceberCodigoDaPartida", (codigo) => {
 
 connection.on("ComecarPartida", (partidaSerilizado) => {
     $('#resultadoModal').modal('hide');
-
+    btnJogarNovamenteModal.disabled = false;
     var partida = JSON.parse(partidaSerilizado);
     formEntrarPartida.style.display = "none"
 
@@ -109,7 +103,6 @@ connection.on("ComecarPartida", (partidaSerilizado) => {
 
 connection.on("AtualizarJogo", (partidaSerializada) => {
     var partida = JSON.parse(partidaSerializada);
-    console.log(partida);
 
     connectionIdJogadorDaVez = partida.JogadorDaVezConnectionId;
 
@@ -149,25 +142,15 @@ connection.on("AdversarioDesconectado", () => {
         alert("O seu adversário saiu!");
         location.reload();
     }
-
-    btnJogarNovamenteModal.disabled = false;
-    btnJogarNovamenteModal.classList.replace("btn-success", "btn-secondary");
-
-    var spanElement = document.createElement("SPAN");
-    spanElement.style.color = "#ff0000";
-    var text = document.createTextNode(" O seu adversário correu!");
-    spanElement.appendChild(text);
-
-    statusAdversarioModal.appendChild(spanElement);
+    statusAdversarioModal.style.color = "#ff0000";
+    statusAdversarioModal.textContent = "O seu adversário correu!";
+    btnJogarNovamenteModal.disabled = true;
 });
 
 connection.on("ConviteJogarNovamente", () => {
-    var spanElement = document.createElement("SPAN");
-    spanElement.style.color = "#28A745";
-    var text = document.createTextNode(" O seu adversário quer jogar novamente");
-    spanElement.appendChild(text);
+    statusAdversarioModal.style.color = "#28A745";
+    statusAdversarioModal.textContent = "O seu adversário quer jogar novamente";
     fuiConvidadoParaJogarNovamente = true;
-    statusAdversarioModal.appendChild(spanElement);
 });
 
 function exibirResultadoModal(titulo, texto) {
@@ -193,13 +176,9 @@ function resetarTabuleiro() {
 };
 
 function marcarPosicao(posicao) {
-
     if (connectionIdJogadorDaVez === connection.connectionId) {
         connection.invoke("MarcarPosicao", posicao, codPartida);
-    } else {
-        alert("Não é sua vez.");
-    }
-
+    } 
 };
 
 function atualizarNomeJogadorDaVez() {
@@ -213,7 +192,6 @@ function atualizarNomeJogadorDaVez() {
 
 
 }
-
 
 for (let posicao of posicoes) {
     posicao.addEventListener("click", (e) => {

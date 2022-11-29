@@ -22,7 +22,7 @@ public class PartidaHub : Hub
         if (partida != null)
         {
             var adversarioConnectionId = partida.JogadorLocal.ConnectionId == Context.ConnectionId ? 
-                partida.JogadorFora.ConnectionId : partida.JogadorLocal.ConnectionId;
+                partida.JogadorFora?.ConnectionId : partida.JogadorLocal?.ConnectionId;
 
             await Clients.Clients(adversarioConnectionId).SendAsync("AdversarioDesconectado");
 

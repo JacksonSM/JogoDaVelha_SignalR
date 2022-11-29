@@ -348,3 +348,7 @@ MigrationBackup/
 
 # Ionide (cross platform F# VS Code tools) working folder
 .ionide/
+/src/Game/Properties/ServiceDependencies/local/signalr1.arm.json
+/src/Game/Properties/launchSettings.json
+/src/Game/Properties/serviceDependencies.json
+/src/Game/Properties/serviceDependencies.local.json
