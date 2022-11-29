@@ -1,9 +1,9 @@
 ﻿const posicoes = document.getElementsByClassName("posicao");
 
-const btnJogarNovamente = document.getElementById("btnJogarNovamente");
+const btnJogarNovamenteModal = document.getElementById("btnJogarNovamente");
 const btnNovaPartidaModal = document.getElementById("btnNovaPartida");
 const resultadoTextoModal = document.getElementById("resultadoTexto");
-const statusAdversario = document.getElementById("statusAdversario");
+const statusAdversarioModal = document.getElementById("statusAdversario");
 
 const formCriarPartida = document.getElementById("formCriarPartida");
 const formEntrarPartida = document.getElementById("formEntrarPartida");
@@ -13,10 +13,10 @@ const plJogadorFora = document.getElementById("plJogadorFora");
 
 let connectionIdJogadorDaVez;
 
-let nomeJogador = "";
-let nomeJogadorOponente = "";
+let meuNome = "";
+let nomeOponente = "";
 let codPartida = "";
-let fuiDesafiado = false;
+let fuiConvidadoParaJogarNovamente = false;
 
 const connection = new signalR.HubConnectionBuilder()
     .withUrl("/jogo-da-velha-hub")
@@ -41,7 +41,7 @@ connection.onclose(async () => {
 formCriarPartida.addEventListener("submit", function (evento) {
     evento.preventDefault();
     const nome = evento.target.elements['fnome'];
-    nomeJogador = nome.value;
+    meuNome = nome.value;
     connection.invoke("CriarPartida", nome.value);
 });
 
@@ -49,20 +49,21 @@ formEntrarPartida.addEventListener("submit", function (evento) {
     evento.preventDefault();
 
     const cod = evento.target.elements['fcodPardida'];
-    connection.invoke("EntrarPartida", nomeJogador, cod.value);
+    connection.invoke("EntrarPartida", meuNome, cod.value);
 });
 
 btnNovaPartida.addEventListener("click", function () {
     location.reload();
 });
 
-btnJogarNovamente.addEventListener("click", function () {
+btnJogarNovamenteModal.addEventListener("click", function () {
 
-    if (fuiDesafiado) {
+    if (fuiConvidadoParaJogarNovamente) {
         connection.invoke("JogarNovamenteAceito", codPartida);
-        fuiDesafiado = false;
+        fuiConvidadoParaJogarNovamente = false;
     }
-    else {
+    else
+    {
         var spanElement = document.createElement("SPAN");
         spanElement.style.color = "#28A745";
         var text = document.createTextNode(" Aguardando seu adversário...");
@@ -71,7 +72,7 @@ btnJogarNovamente.addEventListener("click", function () {
         resultadoTextoModal.appendChild(spanElement);
 
         connection.invoke("JogarNovamente", codPartida);
-        btnJogarNovamente.disabled = false;
+        btnJogarNovamenteModal.disabled = false;
     }
 })
 
@@ -99,16 +100,14 @@ connection.on("ComecarPartida", (partidaSerilizado) => {
     connectionIdJogadorDaVez = partida.JogadorDaVezConnectionId;
     codPartida = partida.CodigoPartida;
 
-    nomeJogadorOponente = partida.JogadorLocal.Nome == nomeJogador
-        ? nomeJogadorOponente = partida.JogadorFora.Nome : nomeJogadorOponente = partida.JogadorLocal.Nome;
+    nomeOponente = partida.JogadorLocal.Nome == meuNome
+        ? nomeOponente = partida.JogadorFora.Nome : nomeOponente = partida.JogadorLocal.Nome;
 
     atualizarNomeJogadorDaVez();
     resetarTabuleiro();
 });
 
 connection.on("AtualizarJogo", (partidaSerializada) => {
-
-    console.log('entrouu !!');
     var partida = JSON.parse(partidaSerializada);
     console.log(partida);
 
@@ -122,11 +121,10 @@ connection.on("Vitoria", (partidaSerializada, vencedor) => {
     var partida = JSON.parse(partidaSerializada);
 
     atualizarTabuleiro(partida.Tabuleiro.Posicoes.split(","));
-
     var titulo;
     var texto;
     titulo = "Vitoria de " + vencedor + "! "
-    texto = vencedor == nomeJogador ? "Parabéns! você foi mais esperto que seu adversário" :
+    texto = vencedor == meuNome ? "Parabéns! você foi mais esperto que seu adversário" :
         "Infelizmente não foi dessa vez :( Peça revanche e a próxima será sua"
 
     exibirResultadoModal(titulo, texto);
@@ -152,15 +150,15 @@ connection.on("AdversarioDesconectado", () => {
         location.reload();
     }
 
-    btnJogarNovamente.disabled = false;
-    btnJogarNovamente.classList.replace("btn-success", "btn-secondary");
+    btnJogarNovamenteModal.disabled = false;
+    btnJogarNovamenteModal.classList.replace("btn-success", "btn-secondary");
 
     var spanElement = document.createElement("SPAN");
     spanElement.style.color = "#ff0000";
     var text = document.createTextNode(" O seu adversário correu!");
     spanElement.appendChild(text);
 
-    statusAdversario.appendChild(spanElement);
+    statusAdversarioModal.appendChild(spanElement);
 });
 
 connection.on("ConviteJogarNovamente", () => {
@@ -168,8 +166,8 @@ connection.on("ConviteJogarNovamente", () => {
     spanElement.style.color = "#28A745";
     var text = document.createTextNode(" O seu adversário quer jogar novamente");
     spanElement.appendChild(text);
-    fuiDesafiado = true;
-    statusAdversario.appendChild(spanElement);
+    fuiConvidadoParaJogarNovamente = true;
+    statusAdversarioModal.appendChild(spanElement);
 });
 
 function exibirResultadoModal(titulo, texto) {
@@ -177,20 +175,14 @@ function exibirResultadoModal(titulo, texto) {
     resultadoTituloModal.innerHTML = titulo;
     resultadoTextoModal.innerHTML = texto;
 
-    $("#resultadoModal").modal({
-        show: true
-    });
+
+    $('#resultadoModal').modal('show');
 }
 
 function atualizarTabuleiro(posicoesArry) {
     for (var i = 0; i < posicoes.length; i++) {
         posicoes[i].innerHTML = posicoesArry[i];
     }
-}
-
-function resetarPartida() {
-
-
 }
 
 function resetarTabuleiro() {
@@ -214,9 +206,9 @@ function atualizarNomeJogadorDaVez() {
     const painelNomeJogador = document.getElementById("nomeJogadorDaVez");
 
     if (connectionIdJogadorDaVez == connection.connectionId) {
-        painelNomeJogador.innerHTML = nomeJogador;
+        painelNomeJogador.innerHTML = meuNome;
     } else {
-        painelNomeJogador.innerHTML = nomeJogadorOponente;
+        painelNomeJogador.innerHTML = nomeOponente;
     }
 
 
