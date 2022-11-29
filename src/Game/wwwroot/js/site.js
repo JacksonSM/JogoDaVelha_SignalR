@@ -146,6 +146,12 @@ connection.on("Empate", (partidaSerializada) => {
 });
 
 connection.on("AdversarioDesconectado", () => {
+
+    if ($('#resultadoModal').is(':hidden')) {
+        alert("O seu adversário saiu!");
+        location.reload();
+    }
+
     btnJogarNovamente.disabled = false;
     btnJogarNovamente.classList.replace("btn-success", "btn-secondary");
 
