@@ -1,12 +1,17 @@
 using Game.DataBase;
+using Game.Filter;
 using Game.Hubs;
+using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
+
 builder.Services.AddControllersWithViews();
-builder.Services.AddSignalR();
+builder.Services.AddSignalR(options =>
+{
+    options.AddFilter<ExceptionFilter>();
+});
 
 builder.Services.AddScoped<PartidaRepository>();
 
@@ -16,7 +21,6 @@ builder.Services.AddDbContext<ApplicationDbContext>(cfg => {
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Home/Error");

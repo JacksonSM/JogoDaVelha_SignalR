@@ -352,3 +352,5 @@ MigrationBackup/
 /src/Game/Properties/launchSettings.json
 /src/Game/Properties/serviceDependencies.json
 /src/Game/Properties/serviceDependencies.local.json
+/src/Game/Properties
+/src/Game/.config

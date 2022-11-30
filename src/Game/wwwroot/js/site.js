@@ -153,6 +153,10 @@ connection.on("ConviteJogarNovamente", () => {
     fuiConvidadoParaJogarNovamente = true;
 });
 
+connection.on("AconteceuErro", () => {
+    alert("Aconteceu um erro!");
+});
+
 function exibirResultadoModal(titulo, texto) {
     var resultadoTituloModal = document.getElementById("resultadoTitulo");
     resultadoTituloModal.innerHTML = titulo;
