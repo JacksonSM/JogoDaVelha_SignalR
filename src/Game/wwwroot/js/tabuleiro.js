@@ -15,7 +15,12 @@ function resetarTabuleiro() {
 
 function marcarPosicao(posicao) {
     if (connectionIdJogadorDaVez === connection.connectionId) {
-        connection.invoke("MarcarPosicao", posicao, codPartida);
+        console.log("marcar posicao");
+        console.log(partida);
+
+        let partidaSerilizado = JSON.stringify(partida);
+        console.log(partidaSerilizado);
+        connection.invoke("MarcarPosicao", posicao, partidaSerilizado);
     }
 };
 

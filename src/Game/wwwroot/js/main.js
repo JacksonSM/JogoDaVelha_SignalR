@@ -1,4 +1,5 @@
-﻿
+﻿let partida;
+
 let connectionIdJogadorDaVez;
 
 let meuNome = "";
@@ -22,15 +23,21 @@ connection.onclose(async () => {
     await start();
 });
 
-connection.on("ReceberCodigoDaPartida", (codigo) => {
+connection.on("ReceberCodigoDaPartida", (codigo, partidaSerilizado) => {
+    partida = JSON.parse(partidaSerilizado);
     proximaTelaParaCodigo();
     exibirCodigoPartida(codigo);
+
+    console.log("ReceberCodigoDaPartida");
+    console.log(partida);
 });
 
 connection.on("ComecarPartida", (partidaSerilizado) => {
     resetarPartida();
+    partida = JSON.parse(partidaSerilizado);
 
-    var partida = JSON.parse(partidaSerilizado);
+    console.log("metodo comecar partida");
+    console.log(partida);
     proximaTelaParaPlacar();
 
     plJogadorLocal.textContent = partida.JogadorLocal.Nome;
@@ -46,7 +53,7 @@ connection.on("ComecarPartida", (partidaSerilizado) => {
 });
 
 connection.on("AtualizarJogo", (partidaSerializada) => {
-    var partida = JSON.parse(partidaSerializada);
+    partida = JSON.parse(partidaSerializada);
 
     connectionIdJogadorDaVez = partida.JogadorDaVezConnectionId;
 
@@ -55,14 +62,14 @@ connection.on("AtualizarJogo", (partidaSerializada) => {
 });
 
 connection.on("Vitoria", (partidaSerializada, vencedor) => {
-    var partida = JSON.parse(partidaSerializada);
+    partida = JSON.parse(partidaSerializada);
 
     atualizarTabuleiro(partida.Tabuleiro.Posicoes.split(","));
     resultadoVitoria(vencedor);
 });
 
 connection.on("Empate", (partidaSerializada) => {
-    var partida = JSON.parse(partidaSerializada);
+    partida = JSON.parse(partidaSerializada);
 
     atualizarTabuleiro(partida.Tabuleiro.Posicoes.split(","));
     resultadoEmpate();
@@ -79,6 +86,7 @@ connection.on("ConviteJogarNovamente", () => {
 connection.on("AconteceuErro", (erro) => {
     alert(erro);
 });
+
 
 function resetarPartida() {
     $('#resultadoModal').modal('hide');

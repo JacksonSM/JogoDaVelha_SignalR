@@ -1,6 +1,8 @@
 ﻿using Game.DataBase;
 using Game.Entity;
+using Game.Entity.Execptions;
 using Microsoft.AspNetCore.SignalR;
+using Newtonsoft.Json;
 using System.Numerics;
 
 namespace Game.Hubs;
@@ -41,16 +43,14 @@ public class PartidaHub : Hub
 
         await _partidaRepository.CriarAsync(novaPartida);
 
-        await Clients.Caller.SendAsync("ReceberCodigoDaPartida", novaPartida.CodigoPartida);
+        await Clients.Caller.SendAsync("ReceberCodigoDaPartida", novaPartida.CodigoPartida, novaPartida.Serializar());
     }
 
     public async Task EntrarPartida(string nomeJogador, string codPartida)
     {
         var partida = await _partidaRepository.ObterPorCodigoAsync(codPartida);
 
-        //remover a partida do banco de dados do jogador que vai entrar na partida
-        var partidapRemover =
-            await _partidaRepository.ObterPartidaPorJogadorAsync(Context.ConnectionId);
+        var partidaJogadorFora = await _partidaRepository.ObterPartidaPorJogadorAsync(Context.ConnectionId);
 
         if (partida != null)
         {
@@ -58,9 +58,7 @@ public class PartidaHub : Hub
             partida.ConectarJogadorFora(jogadorFora);
         }
 
-
-        await _partidaRepository.AtualizarAsync(partida);
-        await _partidaRepository.RemoverAsync(partidapRemover);
+        await _partidaRepository.RemoverAsync(partidaJogadorFora);
         await ComecarPartida(partida);
     }
 
@@ -71,16 +69,16 @@ public class PartidaHub : Hub
         await Clients.Clients(connectiosIds).SendAsync("ComecarPartida", resposta);
     }
 
-    public async Task MarcarPosicao(string posicao, string codPartida)
+    public async Task MarcarPosicao(string posicao, string partidaSerilizado)
     {
-        var partida = await _partidaRepository.ObterPorCodigoAsync(codPartida);
+        var partida = JsonConvert.DeserializeObject<Partida>(partidaSerilizado);
 
+        if (!partida.JogadorDaVezConnectionId.Equals(Context.ConnectionId))
+            throw new GameExceptions("Não é sua vez");
         var posicoes = posicao.Split(",");
         var vector = new Vector2(float.Parse(posicoes[0]), float.Parse(posicoes[1]));
         
         partida.MarcarPosicao(vector, Context.ConnectionId, this);
-
-        await _partidaRepository.AtualizarAsync(partida);
 
         await Clients.Clients(partida.JogadorLocal.ConnectionId, partida.JogadorFora.ConnectionId)
             .SendAsync("AtualizarJogo", partida.Serializar());
@@ -117,7 +115,6 @@ public class PartidaHub : Hub
     {
         var partida = await _partidaRepository.ObterPorCodigoAsync(codPartida);
         partida.Resetar();
-        await _partidaRepository.AtualizarAsync(partida);
 
         await ComecarPartida(partida);
     }
