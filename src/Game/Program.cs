@@ -16,7 +16,7 @@ builder.Services.AddSignalR(options =>
 builder.Services.AddScoped<PartidaRepository>();
 
 builder.Services.AddDbContext<ApplicationDbContext>(cfg => {
-    cfg.UseSqlite("Data Source=Database\\Partidas.db");
+    cfg.UseInMemoryDatabase("Partidas");
 });
 
 var app = builder.Build();
