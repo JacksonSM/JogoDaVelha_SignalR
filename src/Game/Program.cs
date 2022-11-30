@@ -1,4 +1,4 @@
-using Game.DataBase;
+using Game.Context;
 using Game.Filter;
 using Game.Hubs;
 using Microsoft.AspNetCore.SignalR;
@@ -20,13 +20,6 @@ builder.Services.AddDbContext<ApplicationDbContext>(cfg => {
 });
 
 var app = builder.Build();
-
-if (!app.Environment.IsDevelopment())
-{
-    app.UseExceptionHandler("/Home/Error");
-    app.UseHsts();
-}
-
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();

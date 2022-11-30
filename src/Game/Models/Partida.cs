@@ -1,10 +1,10 @@
-﻿using Game.Entity.Execptions;
-using Game.Hubs;
-using Game.Services;
+﻿using Game.Hubs;
+using Game.Models.Execptions;
+using Game.Models.Tools;
 using Newtonsoft.Json;
 using System.Numerics;
 
-namespace Game.Entity;
+namespace Game.Models;
 
 public class Partida
 {
@@ -37,7 +37,7 @@ public class Partida
     public void ConectarJogadorFora(Jogador jogadorFora)
     {
         if (JogadorFora != null)
-            throw new GameExceptions("A partida não existe ou está completa.");
+            throw new GameException("A partida não existe ou está completa.");
         jogadorFora.Marca = "O";
         JogadorFora = jogadorFora;
     }
@@ -45,12 +45,12 @@ public class Partida
     public async void MarcarPosicao(Vector2 posicao, string connectionId, PartidaHub hub)
     {
         if (!connectionId.Equals(JogadorDaVezConnectionId))
-            throw new GameExceptions("Não é a vez do jogador.");
+            throw new GameException("Não é a vez do jogador.");
 
         Hub = hub;
 
         string marca = ObterMarcaJogadorDaVez();
-            
+
         Tabuleiro.MarcarPosicao(marca, posicao);
 
         var isEmpate = Tabuleiro.VerificarEmpate();
@@ -58,7 +58,7 @@ public class Partida
             await Empate();
 
         var isVitoria = Tabuleiro.VerificarVitoria();
-        if(isVitoria)
+        if (isVitoria)
             await Vitoria();
 
         TrocarAVez();

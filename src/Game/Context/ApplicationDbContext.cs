@@ -1,8 +1,8 @@
-﻿using Game.Entity;
+﻿using Game.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace Game.DataBase;
+namespace Game.Context;
 
 public class ApplicationDbContext : DbContext
 {

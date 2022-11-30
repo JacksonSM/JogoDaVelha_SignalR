@@ -1,6 +1,6 @@
-﻿using Game.DataBase;
-using Game.Entity;
-using Game.Entity.Execptions;
+﻿using Game.Context;
+using Game.Models;
+using Game.Models.Execptions;
 using Microsoft.AspNetCore.SignalR;
 using Newtonsoft.Json;
 using System.Numerics;
@@ -74,7 +74,7 @@ public class PartidaHub : Hub
         var partida = JsonConvert.DeserializeObject<Partida>(partidaSerilizado);
 
         if (!partida.JogadorDaVezConnectionId.Equals(Context.ConnectionId))
-            throw new GameExceptions("Não é sua vez");
+            throw new GameException("Não é sua vez");
         var posicoes = posicao.Split(",");
         var vector = new Vector2(float.Parse(posicoes[0]), float.Parse(posicoes[1]));
         

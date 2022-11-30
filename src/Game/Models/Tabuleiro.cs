@@ -1,8 +1,8 @@
-﻿using Game.Entity.Execptions;
-using Game.Entity.Tools;
+﻿using Game.Models.Execptions;
+using Game.Models.Tools;
 using System.Numerics;
 
-namespace Game.Entity;
+namespace Game.Models;
 
 public class Tabuleiro
 {
@@ -20,7 +20,7 @@ public class Tabuleiro
     public Tabuleiro()
     {
         if (Posicoes is null)
-                Posicoes = ",,,,,,,,";
+            Posicoes = ",,,,,,,,";
     }
 
     /// <summary>
@@ -33,7 +33,7 @@ public class Tabuleiro
     /// Método que será invocado, caso todas as posições estejam preenchidas e
     /// não haja alguma reta com valores iguais.
     /// </param>
-    public void MarcarPosicao( string marca, Vector2 posicao)
+    public void MarcarPosicao(string marca, Vector2 posicao)
     {
         ExisteMarca(posicao);
 
@@ -49,7 +49,7 @@ public class Tabuleiro
         var posicoesArry = GetPosicoes();
         var FoiMarcado = posicoesArry[(int)posicao.X, (int)posicao.Y] != "";
 
-        if (FoiMarcado) throw new GameExceptions("Esta posição já foi marcada!");
+        if (FoiMarcado) throw new GameException("Esta posição já foi marcada!");
     }
 
     /// <summary>
@@ -95,7 +95,8 @@ public class Tabuleiro
     /// Para uma melhor manipulação do tabuleiro esse metodo devolve a string tabuleiro em um matriz.
     /// </summary>
     /// <returns>O retorno será o tabuleiro em string para uma matriz 3x3.</returns>
-    private string[,] GetPosicoes() {
+    private string[,] GetPosicoes()
+    {
         var tabuleiro = Posicoes.Split(',');
 
         var posicoesEmMatriz = new string[3, 3] { { tabuleiro[0], tabuleiro[1], tabuleiro[2] },

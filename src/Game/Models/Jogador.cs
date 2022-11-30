@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 
-namespace Game.Entity;
+namespace Game.Models;
 
 public class Jogador
 {

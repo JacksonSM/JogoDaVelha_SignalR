@@ -1,4 +1,4 @@
-﻿namespace Game.Entity.Enums;
+﻿namespace Game.Models.Enums;
 
 public enum Tipo
 {

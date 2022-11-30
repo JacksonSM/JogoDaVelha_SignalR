@@ -1,4 +1,4 @@
-﻿namespace Game.Services;
+﻿namespace Game.Models.Tools;
 
 public static class GeradorDeCodigo
 {

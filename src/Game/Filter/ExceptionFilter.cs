@@ -1,4 +1,4 @@
-﻿using Game.Entity.Execptions;
+﻿using Game.Models.Execptions;
 using Microsoft.AspNetCore.SignalR;
 
 namespace Game.Filter;
@@ -13,7 +13,7 @@ public class ExceptionFilter : IHubFilter
         {
             return await next(invocationContext);
         }
-        catch(GameExceptions e)
+        catch(GameException e)
         {
             await invocationContext.Hub.Clients.Caller.SendAsync("AconteceuErro", e.Message);
             throw;

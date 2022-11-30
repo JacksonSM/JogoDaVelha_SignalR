@@ -27,17 +27,12 @@ connection.on("ReceberCodigoDaPartida", (codigo, partidaSerilizado) => {
     partida = JSON.parse(partidaSerilizado);
     proximaTelaParaCodigo();
     exibirCodigoPartida(codigo);
-
-    console.log("ReceberCodigoDaPartida");
-    console.log(partida);
 });
 
 connection.on("ComecarPartida", (partidaSerilizado) => {
     resetarPartida();
     partida = JSON.parse(partidaSerilizado);
 
-    console.log("metodo comecar partida");
-    console.log(partida);
     proximaTelaParaPlacar();
 
     plJogadorLocal.textContent = partida.JogadorLocal.Nome;

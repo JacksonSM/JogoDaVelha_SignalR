@@ -1,4 +1,4 @@
-﻿using Game.Entity.Tools;
+﻿using Game.Models.Tools;
 
 namespace Game.Test.Tabuleiro;
 public class VerificadorTabuleiroTest
