@@ -35,7 +35,6 @@ app.UseRouting();
 
 app.UseEndpoints(endpoints =>
 {
-
     endpoints.MapHub<PartidaHub>("/jogo-da-velha-hub");
     endpoints.MapControllerRoute(
         name: "default",
