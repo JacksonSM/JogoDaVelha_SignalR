@@ -1,8 +1,12 @@
-﻿namespace Game.Entity;
+﻿using Newtonsoft.Json;
+
+namespace Game.Entity;
 
 public class Jogador
 {
+    [JsonProperty]
     public string Nome { get; private set; }
+    [JsonProperty]
     public string ConnectionId { get; private set; }
     public string Marca { get; set; }
 

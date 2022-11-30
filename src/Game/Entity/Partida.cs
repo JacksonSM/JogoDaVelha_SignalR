@@ -8,16 +8,17 @@ namespace Game.Entity;
 
 public class Partida
 {
+    [JsonProperty]
     public int Id { get; set; }
-
+    [JsonProperty]
     public Jogador JogadorLocal { get; private set; }
-
+    [JsonProperty]
     public Jogador JogadorFora { get; private set; }
-
+    [JsonProperty]
     public string CodigoPartida { get; private set; }
-
+    [JsonProperty]
     public Tabuleiro Tabuleiro { get; private set; } = new();
-
+    [JsonProperty]
     public string JogadorDaVezConnectionId { get; private set; }
 
     [JsonIgnore]
@@ -36,7 +37,7 @@ public class Partida
     public void ConectarJogadorFora(Jogador jogadorFora)
     {
         if (JogadorFora != null)
-            throw new RegrasExceptions("A partida não existe ou está completa.");
+            throw new GameExceptions("A partida não existe ou está completa.");
         jogadorFora.Marca = "O";
         JogadorFora = jogadorFora;
     }
@@ -44,7 +45,7 @@ public class Partida
     public async void MarcarPosicao(Vector2 posicao, string connectionId, PartidaHub hub)
     {
         if (!connectionId.Equals(JogadorDaVezConnectionId))
-            throw new RegrasExceptions("Não é a vez do jogador.");
+            throw new GameExceptions("Não é a vez do jogador.");
 
         Hub = hub;
 
