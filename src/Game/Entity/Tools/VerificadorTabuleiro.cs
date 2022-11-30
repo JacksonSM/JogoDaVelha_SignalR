@@ -14,11 +14,11 @@ public class VerificadorTabuleiro
     /// Retorna true, caso encontre alguma linha, coluna ou diagonal com valores iguais,
     /// caso contrario retorna false.
     /// </returns>
-    /// <exception cref="RegrasExceptions">será lançada uma caso a matriz não seja 3x3</exception>
+    /// <exception cref="GameExceptions">será lançada uma caso a matriz não seja 3x3</exception>
     public bool Verificar(string[,] tabuleiro)
     {
         if (tabuleiro.GetLength(0) != 3 && tabuleiro.GetLength(1) != 3)
-                throw new RegrasExceptions("Apenas matriz 3x3!"); 
+                throw new GameExceptions("Apenas matriz 3x3!"); 
 
         Coluna(tabuleiro);
         Linha(tabuleiro);

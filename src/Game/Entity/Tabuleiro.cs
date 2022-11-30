@@ -49,7 +49,7 @@ public class Tabuleiro
         var posicoesArry = GetPosicoes();
         var FoiMarcado = posicoesArry[(int)posicao.X, (int)posicao.Y] != "";
 
-        if (FoiMarcado) throw new RegrasExceptions("Esta posição já foi marcada!");
+        if (FoiMarcado) throw new GameExceptions("Esta posição já foi marcada!");
     }
 
     /// <summary>

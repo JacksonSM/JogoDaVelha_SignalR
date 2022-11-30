@@ -13,7 +13,7 @@ public class ExceptionFilter : IHubFilter
         {
             return await next(invocationContext);
         }
-        catch(RegrasExceptions e)
+        catch(GameExceptions e)
         {
             await invocationContext.Hub.Clients.Caller.SendAsync("AconteceuErro", e.Message);
             throw;
