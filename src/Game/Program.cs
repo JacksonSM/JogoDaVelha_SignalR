@@ -13,7 +13,7 @@ builder.Services.AddSignalR(options =>
     options.AddFilter<ExceptionFilter>();
 });
 
-builder.Services.AddScoped<IPartidaRepository, IPartidaRepository>();
+builder.Services.AddScoped<IPartidaRepository, PartidaRepository>();
 
 builder.Services.AddDbContext<ApplicationDbContext>(cfg => {
     cfg.UseInMemoryDatabase("Partidas");

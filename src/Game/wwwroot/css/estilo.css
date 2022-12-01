@@ -101,3 +101,14 @@ h1 {
 #statusAdversarioModal {
     margin-top: 20px;
 }
+
+footer{
+    font-size: 20px;
+    position: absolute;
+    bottom: 0;
+    transform: translateY(-100px);
+}
+
+footer a {
+    text-decoration: underline;
+}
