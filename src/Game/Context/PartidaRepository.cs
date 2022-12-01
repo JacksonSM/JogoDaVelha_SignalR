@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Game.Context;
 
-public class PartidaRepository
+public class PartidaRepository : IPartidaRepository
 {
     private ApplicationDbContext _dbContext;
 
@@ -21,11 +21,6 @@ public class PartidaRepository
     public async Task RemoverAsync(Partida partida)
     {
         _dbContext.Remove(partida);
-        await _dbContext.SaveChangesAsync();
-    }
-    public async Task AtualizarAsync(Partida partida)
-    {
-        _dbContext.Update(partida);
         await _dbContext.SaveChangesAsync();
     }
 

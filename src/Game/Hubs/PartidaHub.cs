@@ -10,9 +10,9 @@ namespace Game.Hubs;
 public class PartidaHub : Hub
 {
 
-    private readonly PartidaRepository _partidaRepository;
+    private readonly IPartidaRepository _partidaRepository;
 
-    public PartidaHub(PartidaRepository partidaRepository)
+    public PartidaHub(IPartidaRepository partidaRepository)
     {
         _partidaRepository = partidaRepository;
     }
