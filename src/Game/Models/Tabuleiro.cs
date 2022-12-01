@@ -12,10 +12,7 @@ public class Tabuleiro
     /// <remarks>
     /// A escolha do tipo foi devido a o banco de dados SQLite que não aceita arry.
     /// </remarks>
-    public string Posicoes { get; set; }
-
-    public delegate Task RetaIgual();
-    public delegate Task TabuleiroSemReta();
+    public string Posicoes { get; private set; }
 
     public Tabuleiro()
     {

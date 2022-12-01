@@ -1,12 +1,12 @@
 ﻿using Game.Models.Tools;
 
-namespace Game.Test.Tabuleiro;
+namespace Game.Test.Tools;
 public class VerificadorTabuleiroTest
 {
     [Fact]
     public void APrimeiraColunaDeveTerValoresIguais()
     {
-        var tabuleiro = new string[3, 3] { { "A", "B", "C" }, 
+        var tabuleiro = new string[3, 3] { { "A", "B", "C" },
                                            { "A", "E", "F" },
                                            { "A", "H", "I" } };
 
