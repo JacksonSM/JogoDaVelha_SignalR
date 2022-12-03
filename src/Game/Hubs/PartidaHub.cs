@@ -56,10 +56,13 @@ public class PartidaHub : Hub
         {
             var jogadorFora = new Jogador(nomeJogador, Context.ConnectionId);
             partida.ConectarJogadorFora(jogadorFora);
+            await _partidaRepository.RemoverAsync(partidaJogadorFora);
+            await ComecarPartida(partida);
         }
-
-        await _partidaRepository.RemoverAsync(partidaJogadorFora);
-        await ComecarPartida(partida);
+        else
+        {
+            await Clients.Caller.SendAsync("AconteceuErro", "Não existe partida com esse código!");
+        }
     }
 
     public async Task ComecarPartida(Partida partida)

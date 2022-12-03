@@ -43,7 +43,11 @@ public class Partida
     public void ConectarJogadorFora(Jogador jogadorFora)
     {
         if (JogadorFora != null)
-            throw new GameException("A partida não existe ou está completa.");
+            throw new GameException("A partida está completa.");
+
+        if(jogadorFora.ConnectionId.Equals(JogadorLocal.ConnectionId))
+            throw new GameException("Serio? vai jogar contra você mesmo?");
+
         jogadorFora.Marca = "O";
         JogadorFora = jogadorFora;
     }
