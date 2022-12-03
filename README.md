@@ -4,21 +4,20 @@
 
 ## Deploy
 
-Caso voce esteja em um celular, utilize a verão computador para uma melhor experiencia, fica nos três pontinhos no canto supeior direito.</br>
+Caso você esteja em um celular, utilize a versão computador para uma melhor experiência, fica nos três pontinhos no canto supeior direito.</br>
 [Link para a aplicação](https://jogo-da-velha-jackson-sm.azurewebsites.net/)
 
 ## Sobre
 
-A motivação para desenvolver este projeto foi apenas curiosidade de como seria desenvolver um jogo multiplayer em tempo real, já tinha visto algo sobre o SignalR
-e sabia que este framework seria o ideal. quando eu pude, decidi desenvolver. Confesso que o maior desafio não foi nem usar um framework para aplicação de comunicação em TEMPO REAL, 
-mas sim o HTML e CSS, Eu e o front não nos damos bem :smile:
+A motivação para este projeto foi apenas curiosidade de como seria desenvolver um jogo multiplayer em tempo real, já tinha visto algo sobre o SignalR
+e sabia que este framework seria o ideal. Quando eu pude, decidi desenvolver. Confesso que o maior desafio não foi nem usar um framework para aplicação de comunicação em TEMPO REAL, mas sim o HTML e CSS, Eu e o front não nos damos bem. :smile:
 
 ## Implementação SignalR
 Pode parece complicado desenvolver uma aplicação com a comunicação em tempo real, mas não com o SignalR, pois, 
-este framework abstrai bem a tecnologia. fornecendo a o desenvolvedor métodos bem intuitivo para fazer a comunicação.
+este framework abstrai bem a tecnologia fornecendo ao desenvolvedor métodos bem intuitivos para fazer a comunicação.
 
 ### Configuração inicial
-A configuração é bem simples, no `Program.cs`
+A configuração é bem simples, no `Program.cs`:
 
 adicionei o serviço do SignalR, no meu caso resolvi criar um filtro para capturar as exceções.
 ````
@@ -28,8 +27,8 @@ builder.Services.AddSignalR(options =>
 });
 ````
 
-Ainda no `Program.cs` declaramos a rota, para o cliente ter acesso. veja que existe um método com um tipo `PartidaHuB`,
-Esta é uma classe que herda de Hub, e é nesta classe que foi criado toda a logica de comunicação entres os clientes.
+Ainda no `Program.cs` declaramos a rota para o cliente ter acesso, Veja que existe um método com um tipo `PartidaHuB`,
+esta é uma classe que herda de Hub, e é nesta classe que foi criado toda a lógica de comunicação entres os clientes.
 
 ````
 app.UseEndpoints(endpoints =>
@@ -69,16 +68,16 @@ Apenas com isso o cliente e o servidor já estão conectados.
 ### Comunicação
 
 O SignalR nos fornece uma API para criar RPC (chamadas de procedimento remoto), 
-a comunicação entre cliente e servidor é bem simples, basicamente um método do lado do cliente invoca um método do lado do servidor e vice-versa.
-para demostrar isso, usarei como exemplo o que foi feito para criar uma partida.
+a comunicação entre cliente e servidor é bem simples: basicamente um método do lado do cliente invoca um método do lado do servidor e vice-versa.
+Para demostrar isso, usarei como exemplo o que foi feito para criar uma partida:
 
 Do lado do cliente usamos o metodo "invoke" para invocar um método no servidor.
 
 **Cliente:** 
 
 No bloco de codigo abaixo, foi capturado o nome do jogador, logo após, foi chamado o invoke passando como parâmetros, 
-primeiro o nome da função que esta no sevidor, e o seus parâmetros, que no caso seria apenas o nome do jogador. para funcionar é importante que no invoke,
-seja passado os dados seguindo a assinatura do método que esta no servidor, de forma correta.
+primeiro o nome da função que está no sevidor, e o seus parâmetros que no caso seria apenas o nome do jogador. Para funcionar é importante que no invoke
+seja passado os dados seguindo a assinatura do método que está no servidor de forma correta.
 ````
 formCriarPartida.addEventListener("submit", function (evento) {
     evento.preventDefault();
@@ -103,12 +102,12 @@ public async Task CriarPartida(string nome)
     await Clients.Caller.SendAsync("ReceberCodigoDaPartida", novaPartida.Serializar());
 }
 ````
-No código da ultima linha, estar invocando um método chamado "ReceberCodigoDaPartida" no lado do cliente. Passando como parâmetro
-o objeto partida serializado.
+No código da última linha, está invocando um método chamado "ReceberCodigoDaPartida" no lado do cliente passando como parâmetro
+o objeto partida serializada.
 
 **Cliente:** 
 
-Então o cliente recebe a partida serializado, desserializa, e exibi o código que está no objeto partida.
+Então o cliente recebe a partida serializada, desserializa, e exibi o código que está no objeto partida.
 ````
 connection.on("ReceberCodigoDaPartida", (partidaSerilizado) => {
     partida = JSON.parse(partidaSerilizado);
@@ -118,9 +117,9 @@ connection.on("ReceberCodigoDaPartida", (partidaSerilizado) => {
 ````
 Tudo isso acontecendo de forma quase instantânea.
 
-## Para rodar o projeto em sua maquina local
+## Para rodar o projeto em sua máquina local
 * Faça o clone do repositório `git clone https://github.com/JacksonSM/JogoDaVelha_SignalR.git`
-* Precisa ter instalado o .NET 6 em sua maquina. 
+* Precisa ter instalado o .NET 6 em sua máquina. 
 
 ### No Visual Studio 2022
 * Definir o projeto Game como projeto de inicialização.
