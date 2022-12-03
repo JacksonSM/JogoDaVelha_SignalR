@@ -119,8 +119,8 @@ connection.on("ReceberCodigoDaPartida", (partidaSerilizado) => {
 Tudo isso acontecendo de forma quase instantânea.
 
 ## Para rodar o projeto em sua maquina local
-* Faça o clone do repositório com git clone `https://github.com/JacksonSM/JogoDaVelha_SignalR.git`
-* Precisa ter instalado SDK do .NET 6 em sua maquina. 
+* Faça o clone do repositório `git clone https://github.com/JacksonSM/JogoDaVelha_SignalR.git`
+* Precisa ter instalado o .NET 6 em sua maquina. 
 
 ### No Visual Studio 2022
 * Definir o projeto Game como projeto de inicialização.
