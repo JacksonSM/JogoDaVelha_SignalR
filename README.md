@@ -27,7 +27,7 @@ builder.Services.AddSignalR(options =>
 });
 ````
 
-Ainda no `Program.cs` declaramos a rota para o cliente ter acesso, Veja que existe um método com um tipo `PartidaHuB`,
+Ainda no `Program.cs` declaramos a rota para o cliente ter acesso, veja que existe um método com um tipo `PartidaHuB`,
 esta é uma classe que herda de Hub, e é nesta classe que foi criado toda a lógica de comunicação entres os clientes.
 
 ````
@@ -88,7 +88,7 @@ formCriarPartida.addEventListener("submit", function (evento) {
 
 **Servidor:**
 
-na classe que herda de Hub e que foi usada para criação da rota, a `PartidaHub.cs`, foi escrito o seguinte metodo:
+Na classe que herda de Hub e que foi usada para criação da rota, a `PartidaHub.cs`, foi escrito o seguinte método:
 ````
 public async Task CriarPartida(string nome)
 {
@@ -102,7 +102,7 @@ public async Task CriarPartida(string nome)
     await Clients.Caller.SendAsync("ReceberCodigoDaPartida", novaPartida.Serializar());
 }
 ````
-No código da última linha, está invocando um método chamado "ReceberCodigoDaPartida" no lado do cliente passando como parâmetro
+No código da última linha, está invocando um método chamado "ReceberCodigoDaPartida" ao lado do cliente, passando como parâmetro
 o objeto partida serializada.
 
 **Cliente:** 
