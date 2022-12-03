@@ -112,3 +112,29 @@ footer{
 footer a {
     text-decoration: underline;
 }
+
+@media screen and (max-height : 642px) {
+    .tabuleiro {
+        transform: translateY(36px);
+    }
+
+    footer {
+        font-size: 12px;
+        transform: translateY(-32px);
+    }
+}
+
+@media screen and (max-width: 1250px) {
+    .painel {
+        transform: translateX(0);
+        transform: translateY(-286px);
+    }
+    .tabuleiro {
+        transform: translateY(70px);
+    }
+}
+
+
+
+
+
