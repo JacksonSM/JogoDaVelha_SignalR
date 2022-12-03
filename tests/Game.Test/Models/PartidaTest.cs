@@ -1,7 +1,6 @@
 ﻿using Game.Context;
 using Game.Hubs;
 using Game.Models;
-using Microsoft.AspNet.SignalR.Hubs;
 using Moq;
 using System.Numerics;
 
