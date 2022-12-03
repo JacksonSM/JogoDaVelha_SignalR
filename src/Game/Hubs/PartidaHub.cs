@@ -43,7 +43,7 @@ public class PartidaHub : Hub
 
         await _partidaRepository.CriarAsync(novaPartida);
 
-        await Clients.Caller.SendAsync("ReceberCodigoDaPartida", novaPartida.CodigoPartida, novaPartida.Serializar());
+        await Clients.Caller.SendAsync("ReceberCodigoDaPartida", novaPartida.Serializar());
     }
 
     public async Task EntrarPartida(string nomeJogador, string codPartida)

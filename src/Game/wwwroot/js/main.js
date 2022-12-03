@@ -23,10 +23,10 @@ connection.onclose(async () => {
     await start();
 });
 
-connection.on("ReceberCodigoDaPartida", (codigo, partidaSerilizado) => {
+connection.on("ReceberCodigoDaPartida", (partidaSerilizado) => {
     partida = JSON.parse(partidaSerilizado);
     proximaTelaParaCodigo();
-    exibirCodigoPartida(codigo);
+    exibirCodigoPartida(partida.CodigoPartida);
 });
 
 connection.on("ComecarPartida", (partidaSerilizado) => {
