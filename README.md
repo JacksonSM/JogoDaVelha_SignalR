@@ -5,7 +5,7 @@
 ## Deploy
 
 Caso você esteja em um celular, utilize a versão computador para uma melhor experiência, fica nos três pontinhos no canto supeior direito.</br>
-[Link para a aplicação](https://jogo-da-velha-jackson-sm.azurewebsites.net/)
+[Link para a aplicação](https://jogo-da-velha-jackson-sm.azurewebsites.net/) **Fora do ar temporariamente!**
 
 ## Sobre
 
