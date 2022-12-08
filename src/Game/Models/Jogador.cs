@@ -15,4 +15,9 @@ public class Jogador
         Nome = nome;
         ConnectionId = connectionId;
     }
+
+    public void SetConnectionId(string connectionId)
+    {
+        ConnectionId = connectionId;
+    }
 }

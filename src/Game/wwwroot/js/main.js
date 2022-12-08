@@ -1,6 +1,7 @@
 ﻿let partida;
 
 let connectionIdJogadorDaVez;
+let reconectar = false;
 
 let meuNome = "";
 let nomeOponente = "";
@@ -13,13 +14,22 @@ const connection = new signalR.HubConnectionBuilder()
 
 async function start() {
     try {
-        await connection.start();
+        await connection.start().then(function () {
+            if (reconectar) {
+                var connectionId = partida.JogadorLocal.Nome == meuNome ?
+                    partida.JogadorLocal.ConnectionId : partida.JogadorFora.ConnectionId;
+
+                connection.invoke("Reconectar", connectionId);
+                reconectar = false;
+            }
+        });
     } catch (err) {
         setTimeout(start, 5000);
     }
 };
 
 connection.onclose(async () => {
+    reconectar = true;
     await start();
 });
 
@@ -49,6 +59,7 @@ connection.on("ComecarPartida", (partidaSerilizado) => {
 
 connection.on("AtualizarJogo", (partidaSerializada) => {
     partida = JSON.parse(partidaSerializada);
+    console.log(partida);
 
     connectionIdJogadorDaVez = partida.JogadorDaVezConnectionId;
 

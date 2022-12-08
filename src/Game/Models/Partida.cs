@@ -108,6 +108,20 @@ public class Partida
         return JsonConvert.SerializeObject(this);
     }
 
+    public void ReconectarJogador(string connectionIdAntigo, string connectionIdNovo)
+    {
+        if (JogadorLocal.ConnectionId.Equals(connectionIdAntigo))
+        {
+            JogadorLocal.SetConnectionId(connectionIdNovo);
+        }
+        else
+        {
+            JogadorFora.SetConnectionId(connectionIdNovo);
+        }
+        if(JogadorDaVezConnectionId == connectionIdAntigo)
+            JogadorDaVezConnectionId = connectionIdNovo;
+    }
+
     /// <summary>
     /// Setar os valores da partida e tabuleiro aos valores padrão.
     /// </summary>
