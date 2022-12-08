@@ -7,12 +7,15 @@
 }
 
 body {
-    align-items: center;
     background: linear-gradient(45deg, #a7cfdf 0%,#23538a 100%);
+    font-family: 'Montserrat', sans-serif;
+}
+
+#main {
+    align-items: center;
     display: flex;
     justify-content: center;
     flex-direction: column;
-    font-family: 'Montserrat', sans-serif;
     min-height: 100vh;
 }
 
@@ -52,18 +55,11 @@ h1 {
     border-radius: 10px;
 }
 
-.painel *{
+.painel * {
     font-size: 22px;
     margin-bottom: 20px;
 }
 
-#plJogadorLocal{
-    font-size: 24px;
-}
-
-#plJogadorFora {
-    font-size: 24px;
-}
 #formEntrarPartida {
     display: none;
 }
@@ -102,7 +98,7 @@ h1 {
     margin-top: 20px;
 }
 
-footer{
+footer {
     font-size: 20px;
     position: absolute;
     bottom: 0;
@@ -113,28 +109,48 @@ footer a {
     text-decoration: underline;
 }
 
-@media screen and (max-height : 642px) {
-    .tabuleiro {
-        transform: translateY(36px);
+
+@media (max-width: 425px) {
+    #main {
+        transform: scale(0.8);
     }
 
     footer {
-        font-size: 12px;
-        transform: translateY(-32px);
+        font-size: 16px;
+        position: absolute;
+        transform: translateY(5px);
     }
 }
 
-@media screen and (max-width: 1250px) {
+@media (max-width: 1250px) {
     .painel {
         transform: translateX(0);
         transform: translateY(-286px);
     }
+
     .tabuleiro {
         transform: translateY(70px);
     }
 }
 
+@media (max-width: 320px) and (max-height : 780px) {
+    #main {
+        transform: scale(0.55);
+    }
 
+    #main {
+        font-size: 18px;
+        transform: translateY(158px);
+    }
+}
 
+@media (max-width: 375px) and (max-height : 780px) {
+    #main {
+        transform: scale(0.55);
+    }
 
-
+    footer {
+        font-size: 18px;
+        transform: translateY(158px);
+    }
+}
