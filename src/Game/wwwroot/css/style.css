@@ -110,7 +110,7 @@ footer a {
 }
 
 
-@media (max-width: 425px) {
+@media (max-width: 500px) {
     #main {
         transform: scale(0.8);
     }
