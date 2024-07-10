@@ -5,7 +5,7 @@
 ## Deploy
 
 Aplicação foi hospedado na plataforma Azure</br>
-Link para a aplicação: https://jogo-da-velha-jackson-sm.azurewebsites.net/
+Link para a aplicação: [Jogo da velha](https://jogo-da-velha-jackson.azurewebsites.net/)
 
 ## Sobre
 
